@@ -1,4 +1,4 @@
-# Final Project for INFO 448 Mobile Development - Android (Team 3)
+## Final Project for INFO 448 Mobile Development - Android (Team 3)
 ### Team Name
 ##### Halloween Androiders
 ### Team Members
