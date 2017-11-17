@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">chromatic</string>
+    <string name="title_activity_create_palette">CreatePaletteActivity</string>
+    <string name="title_activity_set_palette_info">SetPaletteInfoActivity</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="title_activity_view_item">ViewItemActivity</string>
+    <string name="title_activity_create_mood_board">CreateMoodBoardActivity</string>
+    <string name="title_activity_set_mbinfo">SetMBInfoActivity</string>
+</resources>

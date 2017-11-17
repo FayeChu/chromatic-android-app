@@ -1,14 +1,17 @@
-## Final Project for INFO 448 Mobile Development - Android (Team 3)
-### Team Name
-##### Halloween Androiders
-### Team Members
-##### Xiaofei Chu, Karen Lee, Su Wang, Wuyi Zhang
-### Project Name
-##### iCollection
+## INFO 448 Android Development Final Project
+## Chromatic
+#### Team Name
+Halloween Androiders (Team 3)
+##### Team Members
+Xiaofei Chu, Karen Lee, Su Wang, Wuyi Zhang
 ### Project Outline
-##### We are planning to build an Android App for UX/Graphic/etc. designers to upload and share their personal works as well as search, explore, discover, comment on, and favorite/like others’ works via SMS/Bluetooth/etc. communication anywhere and anytime.
-### Potential User Stories
-##### As a (UX/Graphic) designer, I want to view and comment on other designers’ works so that I can get more inspiration as well as sharing my thoughts.
-##### As a (UX/Graphic) designer, I want to share and tell my works so that I can get myself promoted and receive feedbacks regarding my works.
-##### As a (UX/Graphic) designer, I want to sign in as a member, upload my works, like/favorite others’ works, and view my recent activities so that I can build up a personal profile.
-##### As a (UX/Graphic) designer, I want to search for specific kinds of works so that I can quickly find target works.
+Chromatic is a camera application allowing designers, artists, photographers, anyone with a desire to seek colors found naturally and around the world to simply extract the inspiration in their photos and lay them out as palettes and mood boards.
+### User Stories
+* As a user, I want to be able to use phone camera to take pictures for the basis of a palette
+* As a user, I want to be able to import my own photos to create a palette scheme
+* As a user, I want to automatically create color palettes from taken or imported photos
+* As a user, I want to edit color palettes, such as choosing certain pixels or how many colors
+* As a user, I want to keep a collection of color palettes to refer to with the color information and photo inspirations
+* As a user, I want to view a color palette and experiment by applying to different images
+* As a user, I want to create, view, save, and export mood boards
+* As a user, I want to have a personal profile page that contains my portfolio of palette schemes, colored images, and a collection of my favorites works
