@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Chromatic</string>
+    <string name="title_activity_gallery_screen">GalleryScreenActivity</string>
+    <string name="action_pick_image">Pick an image</string>
+    <string name="decode_failed">Image decoding failed</string>
+    <string name="io_failed">IO operation failed</string>
+    <string name="title_activity_creations">CreationsActivity</string>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_moodboards"
+        android:enabled="true"
+        android:icon="@drawable/ic_create_white_24px"
+        android:title="MoodBoards"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_gallery"
+        android:enabled="true"
+        android:icon="@drawable/ic_palette_white_24px"
+        android:title="Gallery"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_creations"
+        android:enabled="true"
+        android:icon="@drawable/ic_save_white_24px"
+        android:title="Collections"
+        app:showAsAction="ifRoom" />
+
+</menu>
