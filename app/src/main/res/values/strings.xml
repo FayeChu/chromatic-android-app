@@ -6,4 +6,6 @@
     <string name="title_activity_view_item">//Creation Name</string>
     <string name="title_activity_create_mood_board">Create a Mood Board</string>
     <string name="title_activity_set_mbinfo">Set Info</string>
+
+    <string name="title_next">next</string>
 </resources>
