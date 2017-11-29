@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/button_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="TAKE A PHOTO"
+        android:layout_margin="10px" />
+
+    <Button
+        android:id="@+id/button_import_photo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="IMPORT A PHOTO"
+        android:layout_margin="10px" />
+
+    <Button
+        android:id="@+id/button_view_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="VIEW GALLERY"
+        android:layout_margin="10px" />
+</LinearLayout>
