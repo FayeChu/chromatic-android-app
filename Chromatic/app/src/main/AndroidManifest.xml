@@ -35,7 +35,7 @@
             android:name=".CreationsActivity"
             android:label="@string/title_activity_creations"
             />
-        <activity android:name=".CreateMoodBoardActivity" />
+
     </application>
 
 </manifest>
