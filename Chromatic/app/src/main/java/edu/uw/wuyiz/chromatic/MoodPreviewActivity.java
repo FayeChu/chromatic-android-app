@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -69,7 +71,24 @@ public class MoodPreviewActivity extends AppCompatActivity implements Palette.Pa
         onImagePicked(imageUri);
     }
 
-//
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_import, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_import:
+                Intent intent = new Intent(this, GalleryScreenActivity.class);
+                intent.putExtra("uri", imageUri.toString());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onGenerated(Palette palette) {
