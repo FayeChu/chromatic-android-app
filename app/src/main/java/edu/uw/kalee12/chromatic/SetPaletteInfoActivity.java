@@ -100,6 +100,8 @@ public class SetPaletteInfoActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.save:
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
