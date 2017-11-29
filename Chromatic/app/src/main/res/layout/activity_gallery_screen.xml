@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context="edu.uw.wuyiz.chromatic.GalleryScreenActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16dp"
-        app:layout_behavior="edu.uw.wuyiz.chromatic.ShowOnScrollBehavior">
-        <include layout="@layout/gallery_list" />
-    </FrameLayout>
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

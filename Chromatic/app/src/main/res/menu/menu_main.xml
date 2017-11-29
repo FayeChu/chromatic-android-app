@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MoodPreviewActivity">
 
-    <item android:id="@+id/action_pick_image"
-        android:title="@string/action_pick_image"
+    <item android:id="@+id/action_import_image"
+        android:title="@string/action_import_image"
         android:orderInCategory="100"
         app:showAsAction="always"/>
+
 </menu>

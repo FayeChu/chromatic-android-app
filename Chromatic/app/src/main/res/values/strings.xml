@@ -7,4 +7,5 @@
     <string name="decode_failed">Image decoding failed</string>
     <string name="io_failed">IO operation failed</string>
     <string name="title_activity_creations">CreationsActivity</string>
+    <string name="action_import_image">Import an image</string>
 </resources>

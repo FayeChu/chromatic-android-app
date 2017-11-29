@@ -27,7 +27,7 @@ public class CreationsActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_moodboards:
-                                Intent moodBoardsIntent = new Intent(getApplicationContext(), MoodBoardActivity.class);
+                                Intent moodBoardsIntent = new Intent(getApplicationContext(), CreateMoodBoardActivity.class);
                                 startActivity(moodBoardsIntent);
                             case R.id.action_gallery:
                                 Intent galleryIntent = new Intent(getApplicationContext(), GalleryScreenActivity.class);
