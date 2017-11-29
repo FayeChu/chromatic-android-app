@@ -14,7 +14,7 @@
         <activity
             android:name=".GalleryScreenActivity"
             android:label="@string/title_activity_gallery_screen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
