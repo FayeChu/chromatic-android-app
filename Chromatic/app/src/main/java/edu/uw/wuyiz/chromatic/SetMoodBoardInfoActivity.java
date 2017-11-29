@@ -1,4 +1,4 @@
-package edu.uw.kalee12.chromatic;
+package edu.uw.wuyiz.chromatic;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class CreatePaletteActivity extends AppCompatActivity {
+public class SetMoodBoardInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_palette);
+        setContentView(R.layout.activity_set_mbinfo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,10 +30,5 @@ public class CreatePaletteActivity extends AppCompatActivity {
 
 /*
     Karen :
-        User uses default camera or imports a photo
-        Creating a palette
-            (1) pick five points for user to show potential colors allowing user
-            to know whether they want to take a new picture
-            (2) let user edit palette by choosing palette square and picking part of picture
-        I might split this into two parts - picture preview, and the actual editing
+        Name / Description / notes
  */
