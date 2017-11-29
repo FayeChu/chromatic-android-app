@@ -11,19 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".GalleryScreenActivity"
-            android:label="@string/title_activity_gallery_screen"
-            />
+            android:label="@string/title_activity_gallery_screen" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
         </activity>
 
         <activity
@@ -31,18 +34,23 @@
             android:configChanges="orientation"
             android:label="Mood Preview"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".CreationsActivity"
-            android:label="@string/title_activity_creations"
-            />
+            android:label="@string/title_activity_creations" />
 
         <activity
             android:name=".CreateMoodBoardActivity"
-            android:label="@string/title_activity_create_mood_board" />
+            android:label="@string/title_activity_create_mood_board" >
+        </activity>
 
         <activity
             android:name=".ShowCreatedMoodBoardActivity"
-            android:label="@string/title_activity_show_created_mood_board"/>
+            android:label="@string/title_activity_show_created_mood_board" />
+
+        <activity
+            android:name=".SetMoodBoardInfoActivity"
+            android:label="@string/title_activity_set_mood_board_info" />
 
     </application>
 

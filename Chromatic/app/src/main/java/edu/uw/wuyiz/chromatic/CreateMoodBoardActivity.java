@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 public class CreateMoodBoardActivity extends AppCompatActivity {
 
-    DrawingView drawingView;
+    public DrawingView drawingView;
 
     public static Bitmap createdMoodBoardBitmap;
 
