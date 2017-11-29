@@ -33,6 +33,8 @@ public class GalleryScreenActivity extends AppCompatActivity {
     private Uri imageUri;
     private String uri;
 
+    private ArrayList<String> mUrlList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +67,18 @@ public class GalleryScreenActivity extends AppCompatActivity {
                     }
                 });
 
-        final ArrayList<String> mUrlList = new ArrayList<>();
+        if (savedInstanceState == null) {
+            mUrlList = new ArrayList<>();
 
-        mUrlList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510081122985&di=8bfc65adda0e868cb7700eadf8dcac71&imgtype=0&src=http%3A%2F%2Fpic.zhutou.com%2Fhtml%2FUploadPic%2F2010-6%2F2010664458474.jpg");
-        if (uri != null) {
-            mUrlList.add(uri);
+            mUrlList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510081122985&di=8bfc65adda0e868cb7700eadf8dcac71&imgtype=0&src=http%3A%2F%2Fpic.zhutou.com%2Fhtml%2FUploadPic%2F2010-6%2F2010664458474.jpg");
+            if (uri != null) {
+                mUrlList.add(uri);
+            }
+        } else {
+            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
         }
+
+
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -121,19 +129,21 @@ public class GalleryScreenActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putParcelable(KEY_IMAGE_URI, imageUri);
+        //outState.putParcelable(KEY_IMAGE_URI, imageUri);
+        outState.putStringArrayList(KEY_IMAGE_URI, mUrlList);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        Uri uri = savedInstanceState.getParcelable(KEY_IMAGE_URI);
-        if (uri != null) {
-            Intent intent = new Intent(this, MoodPreviewActivity.class);
-            intent.putExtra("uri", uri.toString());
-            startActivity(intent);
-        }
+        //Uri uri = savedInstanceState.getParcelable(KEY_IMAGE_URI);
+//        if (uri != null) {
+//            Intent intent = new Intent(this, MoodPreviewActivity.class);
+//            intent.putExtra("uri", uri.toString());
+//            startActivity(intent);
+//        }
+        mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
     }
 
     @Override

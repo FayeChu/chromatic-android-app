@@ -34,7 +34,7 @@
         <activity
             android:name=".CreationsActivity"
             android:label="@string/title_activity_creations"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity android:name=".CreateMoodBoardActivity" />
     </application>
 
