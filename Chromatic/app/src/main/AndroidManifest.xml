@@ -36,6 +36,17 @@
             android:label="@string/title_activity_creations"
             />
 
+<<<<<<< Updated upstream
+=======
+        <activity
+            android:name=".CreateMoodBoardActivity"
+            android:label="@string/title_activity_create_mood_board" />
+
+        <activity
+            android:name=".ShowCreatedMoodBoardActivity"
+            android:label="@string/title_activity_show_created_mood_board"/>
+
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

@@ -1,34 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.uw.wuyiz.chromatic.CreateMoodBoardActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <edu.uw.wuyiz.chromatic.DrawingView
+        android:id="@+id/drawing_view"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <Button
+        android:id="@+id/create_mood_board"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_alignParentRight="true"
+        android:text="Create!"/>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <RelativeLayout
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
 
-    </android.support.design.widget.AppBarLayout>
+        <Button
+            android:id="@+id/up_button"
+            android:text="↑"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/button_size"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"/>
+
+        <Button
+            android:id="@+id/right_button"
+            android:text="→"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/up_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"/>
+
+        <Button
+            android:id="@+id/left_button"
+            android:text="←"
+            android:layout_toLeftOf="@id/up_button"
+            android:layout_below="@id/up_button"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"/>
+
+        <Button
+            android:id="@+id/down_button"
+            android:layout_below="@id/left_button"
+            android:text="↓"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/button_size"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"/>
+    </RelativeLayout>
 
     <include layout="@layout/content_create_mood_board" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
