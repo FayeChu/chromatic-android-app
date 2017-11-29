@@ -5,5 +5,5 @@ package edu.uw.wuyiz.chromatic;
  */
 
 public class MoodBoard {
-    ImageVie
+
 }
