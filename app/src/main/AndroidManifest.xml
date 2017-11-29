@@ -40,6 +40,9 @@
             android:name=".SetMBInfoActivity"
             android:label="@string/title_activity_set_mbinfo"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBQ78fhq74O_weuzhfjDW44c7nn4HPL-50"/>
     </application>
 
 </manifest>
