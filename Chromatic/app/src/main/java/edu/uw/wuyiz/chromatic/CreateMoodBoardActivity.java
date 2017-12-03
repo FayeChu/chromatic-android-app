@@ -5,10 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-
 
 public class CreateMoodBoardActivity extends AppCompatActivity {
 
@@ -28,12 +25,19 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
         drawingView = (DrawingView) findViewById(R.id.drawing_view);
 
-        findViewById(R.id.create_mood_board).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.create_mood_board_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createdMoodBoardBitmap = getBitmap(drawingView);
                 startActivity(new Intent(CreateMoodBoardActivity.this,
                         ShowCreatedMoodBoardActivity.class));
+            }
+        });
+
+        findViewById(R.id.create_mood_board_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawingView.addText();
             }
         });
 
@@ -62,6 +66,34 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 drawingView.setOffset(DrawingView.DIRECTION.DOWN);
+            }
+        });
+
+        findViewById(R.id.rotate_left_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawingView.rotateSelected(-45);
+            }
+        });
+
+        findViewById(R.id.rotate_right_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawingView.rotateSelected(45);
+            }
+        });
+
+        findViewById(R.id.zoom_in_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawingView.scaleSelected((float) (1.15));
+            }
+        });
+
+        findViewById(R.id.zoom_out_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawingView.scaleSelected((float) (0.85));
             }
         });
 
@@ -108,9 +140,3 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         return bitmap;
     }
 }
-/*
-    Karen :
-        Creating a mood board options
-            (1) A particular view as a collection of palettes / pictures
-            (2) having an exportable image (which moodboards are typically used as)
- */

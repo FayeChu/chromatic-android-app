@@ -12,11 +12,19 @@
         android:layout_height="match_parent"/>
 
     <Button
-        android:id="@+id/create_mood_board"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/create_mood_board_button"
+        android:layout_width="80dp"
+        android:layout_height="@dimen/button_height"
         android:layout_alignParentRight="true"
         android:text="Create!"/>
+
+    <Button
+        android:id="@+id/add_text_button"
+        android:layout_width="80dp"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/create_mood_board_button"
+        android:text="Add Text"/>
 
     <RelativeLayout
         android:layout_alignParentEnd="true"
@@ -27,36 +35,67 @@
 
         <Button
             android:id="@+id/up_button"
-            android:text="↑"
+            android:text="Move Up"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/button_size"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"/>
+            android:layout_marginRight="@dimen/button_width"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
 
         <Button
             android:id="@+id/right_button"
-            android:text="→"
+            android:text="Move Right"
             android:layout_alignParentRight="true"
             android:layout_below="@id/up_button"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"/>
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
 
         <Button
             android:id="@+id/left_button"
-            android:text="←"
+            android:text="Move Left"
             android:layout_toLeftOf="@id/up_button"
             android:layout_below="@id/up_button"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"/>
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
 
         <Button
             android:id="@+id/down_button"
             android:layout_below="@id/left_button"
-            android:text="↓"
+            android:text="Move Down"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/button_size"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"/>
+            android:layout_marginRight="@dimen/button_width"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
+
+        <Button
+            android:id="@+id/rotate_left_button"
+            android:layout_below="@id/up_button"
+            android:text="Turn Left"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
+
+        <Button
+            android:id="@+id/rotate_right_button"
+            android:layout_below="@id/up_button"
+            android:layout_toRightOf="@id/rotate_left_button"
+            android:text="Turn Right"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
+
+        <Button
+            android:id="@+id/zoom_in_button"
+            android:layout_below="@id/left_button"
+            android:text="Zoom In"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
+
+        <Button
+            android:id="@+id/zoom_out_button"
+            android:layout_below="@id/left_button"
+            android:layout_toRightOf="@id/zoom_in_button"
+            android:text="Zoom Out"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"/>
+
     </RelativeLayout>
 
     <include layout="@layout/content_create_mood_board" />

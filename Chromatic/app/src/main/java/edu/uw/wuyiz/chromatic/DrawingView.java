@@ -73,11 +73,11 @@ public class DrawingView extends View {
 
                 for (CustomBitmap customBitmap : bitmapList) {
                     float[] values = new float[9];
-                    customBitmap.getMatrix().getValues(values);
+                    customBitmap.matrix.getValues(values);
                     float globalX = values[Matrix.MTRANS_X];
                     float globalY = values[Matrix.MTRANS_Y];
-                    float width = customBitmap.getWidthAfterScale();
-                    float height = customBitmap.getHeightAfterScale();
+                    float width = customBitmap.widthAfterScale;
+                    float height = customBitmap.heightAfterScale;
                     float midX = (globalX + width) / 2;
                     float midY = (globalY + height) / 2;
                     PointF pointF = new PointF(midX, midY);
@@ -86,11 +86,11 @@ public class DrawingView extends View {
 
                 for (CustomBitmap customBitmap : bitmapList) {
                     float[] values = new float[9];
-                    customBitmap.getMatrix().getValues(values);
+                    customBitmap.matrix.getValues(values);
                     float globalX = values[Matrix.MTRANS_X];
                     float globalY = values[Matrix.MTRANS_Y];
-                    float width = customBitmap.getWidthAfterScale();
-                    float height = customBitmap.getHeightAfterScale();
+                    float width = customBitmap.widthAfterScale;
+                    float height = customBitmap.heightAfterScale;
 
                     Rect rect = new Rect((int) globalX, (int) globalY,
                             (int) (globalX + width), (int) (globalY + height));
@@ -133,31 +133,31 @@ public class DrawingView extends View {
                 curCustomBitmap.oldRotation = calculateRotation(motionEvent);
                 curCustomBitmap.startDist = calculateDistance(motionEvent);
 
-                if (curCustomBitmap.getStartDist() > 10f) {
+                if (curCustomBitmap.startDist > 10f) {
                     curCustomBitmap.midPoint = calculateMidPoint(motionEvent);
-                    curMatrix.set(curCustomBitmap.getMatrix());
+                    curMatrix.set(curCustomBitmap.matrix);
                 }
 
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 if (action == ACTION.DRAG) {
-                    float dX = motionEvent.getX() - curCustomBitmap.getStartPoint().x;
-                    float dY = motionEvent.getY() - curCustomBitmap.getStartPoint().y;
+                    float dX = motionEvent.getX() - curCustomBitmap.startPoint.x;
+                    float dY = motionEvent.getY() - curCustomBitmap.startPoint.y;
                     curCustomBitmap.matrix.set(curMatrix);
                     curCustomBitmap.matrix.postTranslate(dX, dY);
                 } else if (action == ACTION.ZOOM) {
                     float endDist = calculateDistance(motionEvent);
                     curCustomBitmap.newRotation =
-                            calculateRotation(motionEvent) - curCustomBitmap.getOldRotation();
+                            calculateRotation(motionEvent) - curCustomBitmap.oldRotation;
                     if (endDist > 10f) {
-                        curScaleParam = endDist / curCustomBitmap.getStartDist();
+                        curScaleParam = endDist / curCustomBitmap.startDist;
                         curCustomBitmap.matrix.set(curMatrix);
                         curCustomBitmap.matrix.postScale(curScaleParam, curScaleParam,
-                                curCustomBitmap.getMidPoint().x,
-                                curCustomBitmap.getMidPoint().y);
-                        curCustomBitmap.matrix.postRotate(curCustomBitmap.getNewRotation(),
-                                curCustomBitmap.getMidPoint().x, curCustomBitmap.getMidPoint().y);
+                                curCustomBitmap.midPoint.x,
+                                curCustomBitmap.midPoint.y);
+                        curCustomBitmap.matrix.postRotate(curCustomBitmap.newRotation,
+                                curCustomBitmap.midPoint.x, curCustomBitmap.midPoint.y);
                     }
                     newDist = calculateSpacing(motionEvent);
                     if (newDist > oldDist + 1 || newDist < oldDist - 1) {
@@ -171,6 +171,7 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_POINTER_UP:
                 action = ACTION.NONE;
                 setWeightAndHeight(curScaleParam);
+                curScaleParam = 1;
                 break;
         }
         invalidate();
@@ -185,22 +186,75 @@ public class DrawingView extends View {
         paint.setAntiAlias(true);
 
         for (CustomBitmap customBitmap : bitmapList) {
-            canvas.drawBitmap(customBitmap.getBitmap(), customBitmap.getMatrix(), paint);
+            canvas.drawBitmap(customBitmap.getBitmap(), customBitmap.matrix, paint);
         }
     }
 
     public void setOffset(DIRECTION direction) {
         if (direction == DIRECTION.UP) {
-            curCustomBitmap.matrix.postTranslate(0, -1);
+            curCustomBitmap.matrix.postTranslate(0, -2);
         } else if (direction == DIRECTION.DOWN) {
-            curCustomBitmap.matrix.postTranslate(0, 1);
+            curCustomBitmap.matrix.postTranslate(0, 2);
         } else if (direction == DIRECTION.LEFT) {
-            curCustomBitmap.matrix.postTranslate(-1, 0);
+            curCustomBitmap.matrix.postTranslate(-2, 0);
         } else if (direction == DIRECTION.RIGHT) {
-            curCustomBitmap.matrix.postTranslate(1, 0);
+            curCustomBitmap.matrix.postTranslate(2, 0);
         }
 
         invalidate();
+    }
+
+    public void scaleSelected(float scaleParam) {
+        curCustomBitmap.matrix.preScale(scaleParam, scaleParam,
+                curCustomBitmap.midPoint.x, curCustomBitmap.midPoint.y);
+
+        curCustomBitmap.widthAfterScale = ((int) (curCustomBitmap.widthAfterScale * scaleParam));
+        curCustomBitmap.heightAfterScale = ((int) (curCustomBitmap.heightAfterScale * scaleParam));
+
+        float[] values = new float[9];
+        curCustomBitmap.matrix.getValues(values);
+        float globalX = values[Matrix.MTRANS_X];
+        float globalY = values[Matrix.MTRANS_Y];
+        float width= curCustomBitmap.widthAfterScale;
+        float height = curCustomBitmap.heightAfterScale;
+
+        Rect rect = new Rect((int) globalX,
+                (int) globalY,
+                (int) (globalX + width),
+                (int) (globalY + height));
+
+        curCustomBitmap.x = rect.left;
+        curCustomBitmap.y = rect.top;
+        curCustomBitmap.scaleParam = scaleParam;
+
+        invalidate();
+    }
+
+    public void rotateSelected(int rotationDegree) {
+        curCustomBitmap.matrix.preRotate(rotationDegree,
+                curCustomBitmap.midPoint.x, curCustomBitmap.midPoint.y);
+
+        float[] values = new float[9];
+        curCustomBitmap.matrix.getValues(values);
+        float globalX = values[Matrix.MTRANS_X];
+        float globalY = values[Matrix.MTRANS_Y];
+        float width= curCustomBitmap.widthAfterScale;
+        float height = curCustomBitmap.heightAfterScale;
+
+        Rect rect = new Rect((int) globalX,
+                (int) globalY,
+                (int) (globalX + width),
+                (int) (globalY + height));
+
+        curCustomBitmap.x = rect.left;
+        curCustomBitmap.y = rect.top;
+
+        invalidate();
+    }
+
+    public void addText() {
+        //get input and addBitmap();
+
     }
 
     public void addBitmap(CustomBitmap customBitmap) {
@@ -235,21 +289,21 @@ public class DrawingView extends View {
     private void scaleAll(float scaleParam) {
         for (CustomBitmap customBitmap : bitmapList) {
             customBitmap.matrix.postScale(scaleParam, scaleParam,
-                    customBitmap.getMidPoint().x, customBitmap.getMidPoint().y);
+                    customBitmap.midPoint.x, customBitmap.midPoint.y);
         }
     }
 
     private void setWeightAndHeight(float scaleParam) {
         for (CustomBitmap customBitmap : bitmapList) {
-            customBitmap.widthAfterScale = ((int) (customBitmap.getWidthAfterScale() * scaleParam));
-            customBitmap.heightAfterScale = ((int) (customBitmap.getHeightAfterScale() * scaleParam));
+            customBitmap.widthAfterScale = ((int) (customBitmap.widthAfterScale * scaleParam));
+            customBitmap.heightAfterScale = ((int) (customBitmap.heightAfterScale * scaleParam));
 
             float[] values = new float[9];
-            customBitmap.getMatrix().getValues(values);
+            customBitmap.matrix.getValues(values);
             float globalX = values[Matrix.MTRANS_X];
             float globalY = values[Matrix.MTRANS_Y];
-            float width= customBitmap.getWidthAfterScale();
-            float height = customBitmap.getHeightAfterScale();
+            float width= customBitmap.widthAfterScale;
+            float height = customBitmap.heightAfterScale;
 
             Rect rect = new Rect((int) globalX,
                     (int) globalY,
@@ -268,7 +322,7 @@ public class DrawingView extends View {
             bitmapList.add(curCustomBitmap);
         }
 
-        curMatrix.set(curCustomBitmap.getMatrix());
+        curMatrix.set(curCustomBitmap.matrix);
         curCustomBitmap.matrix.set(curMatrix);
         curCustomBitmap.startPoint.set(motionEvent.getX(), motionEvent.getY());
         postInvalidate();

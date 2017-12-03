@@ -25,10 +25,10 @@ public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        createdMoodBoardImage = (ImageView) findViewById(R.id.image);
+        createdMoodBoardImage = (ImageView) findViewById(R.id.created_mood_board);
         createdMoodBoardImage.setImageBitmap(CreateMoodBoardActivity.createdMoodBoardBitmap);
 
-        findViewById(R.id.save_mood_board).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.save_mood_board_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(
@@ -42,3 +42,10 @@ public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
         });
     }
 }
+
+/*
+    Karen :
+        Creating a mood board options
+            (1) A particular view as a collection of palettes / pictures
+            (2) having an exportable image (which moodboards are typically used as)
+ */
