@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         findViewById(R.id.add_text_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // show the keyboard with 150ms delay after clicking the Add Text button
+                // show the keyboard with 200ms delay after clicking the Add Text button
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     public void run() {
@@ -66,7 +65,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                                 (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     }
-                }, 150);
+                }, 200);
 
                 // null parent ViewGroup for AlertDialog
                 final ViewGroup nullParent = null;

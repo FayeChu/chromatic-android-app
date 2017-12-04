@@ -78,7 +78,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                                     "Mood Board "
                                             + moodBoardId
                                             + " already exists, please enter a new name",
-                                    Toast.LENGTH_LONG).show();
+                                    Toast.LENGTH_SHORT).show();
 
                         } else {
 
@@ -97,7 +97,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                                     "Mood Board "
                                             + newMoodBoardObject.moodBoardId
                                             + " saved successfully",
-                                    Toast.LENGTH_LONG).show();
+                                    Toast.LENGTH_SHORT).show();
 
                             Intent galleryIntent = new Intent(
                                     getApplicationContext(),
