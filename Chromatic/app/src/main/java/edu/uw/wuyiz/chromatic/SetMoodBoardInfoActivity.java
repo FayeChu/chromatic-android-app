@@ -20,8 +20,6 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "Set Mood Board Info Activity";
 
-    private static int moodBoardId = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

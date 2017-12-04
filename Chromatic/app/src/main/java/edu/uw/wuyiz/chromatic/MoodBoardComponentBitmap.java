@@ -10,7 +10,7 @@ import android.graphics.PointF;
  * Created by wuyiz on 11/28/17.
  */
 
-public class CustomBitmapForMoodBoard {
+public class MoodBoardComponentBitmap {
 
     public int id;
     public int x;
@@ -28,7 +28,7 @@ public class CustomBitmapForMoodBoard {
     public PointF midPoint;
     public Bitmap bitmap;
 
-    public CustomBitmapForMoodBoard(Bitmap bitmap) {
+    public MoodBoardComponentBitmap(Bitmap bitmap) {
         this.oldRotation = 0;
         this.newRotation = 0;
         this.startPoint = new PointF();

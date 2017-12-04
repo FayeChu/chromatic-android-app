@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
 
-    private static ImageView createdMoodBoardImage;
+    public ImageView createdMoodBoardImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        createdMoodBoardImage = (ImageView) findViewById(R.id.created_mood_board);
+        createdMoodBoardImage = findViewById(R.id.created_mood_board);
         createdMoodBoardImage.setImageBitmap(CreateMoodBoardActivity.createdMoodBoardBitmap);
 
         findViewById(R.id.save_mood_board_button).setOnClickListener(new View.OnClickListener() {

@@ -14,10 +14,6 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".GalleryScreenActivity"
-            android:label="@string/title_activity_gallery_screen" />
-
-        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -29,6 +25,10 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".GalleryScreenActivity"
+            android:label="@string/title_activity_gallery_screen" />
 
         <activity
             android:name=".MoodPreviewActivity"

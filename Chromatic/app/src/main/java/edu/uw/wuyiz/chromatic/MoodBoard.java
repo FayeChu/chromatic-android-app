@@ -38,4 +38,60 @@ public class MoodBoard {
         this.moodBoradDescription = moodBoradDescription;
         this.moodBoardBitmap = moodBoardBitmap;
     }
+
+    public String getMoodBoardId() {
+        return moodBoardId;
+    }
+
+    public void setMoodBoardId(String moodBoardId) {
+        this.moodBoardId = moodBoardId;
+    }
+
+    public String getMoodBoardName() {
+        return moodBoardName;
+    }
+
+    public void setMoodBoardName(String moodBoardName) {
+        this.moodBoardName = moodBoardName;
+    }
+
+    public String getMoodBoardAuthor() {
+        return moodBoardAuthor;
+    }
+
+    public void setMoodBoardAuthor(String moodBoardAuthor) {
+        this.moodBoardAuthor = moodBoardAuthor;
+    }
+
+    public String getMoodBoardDate() {
+        return moodBoardDate;
+    }
+
+    public void setMoodBoardDate(String moodBoardDate) {
+        this.moodBoardDate = moodBoardDate;
+    }
+
+    public String getMoodBoradNotes() {
+        return moodBoradNotes;
+    }
+
+    public void setMoodBoradNotes(String moodBoradNotes) {
+        this.moodBoradNotes = moodBoradNotes;
+    }
+
+    public String getMoodBoradDescription() {
+        return moodBoradDescription;
+    }
+
+    public void setMoodBoradDescription(String moodBoradDescription) {
+        this.moodBoradDescription = moodBoradDescription;
+    }
+
+    public Bitmap getMoodBoardBitmap() {
+        return moodBoardBitmap;
+    }
+
+    public void setMoodBoardBitmap(Bitmap moodBoardBitmap) {
+        this.moodBoardBitmap = moodBoardBitmap;
+    }
 }

@@ -11,22 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class CreateMoodBoardActivity extends AppCompatActivity {
 
-    public static DrawingView drawingView;
-
+    // drawingView for creating mood board
+    public DrawingView drawingView;
+    // store created mood board for this activity
     public static Bitmap createdMoodBoardBitmap;
-
-    public static List<CustomBitmapForMoodBoard> textCustomBitmapForMoodBoardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +36,17 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        drawingView = (DrawingView) findViewById(R.id.drawing_view);
+        // initialize the drawingView and createdMoodBoardBitmap
+        drawingView = findViewById(R.id.drawing_view);
         createdMoodBoardBitmap = null;
-        textCustomBitmapForMoodBoardList = new ArrayList<>();
 
         findViewById(R.id.create_mood_board_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // when clicking Create, all the MoodBoardComponentBitmap objects
+                // in the drawingView are turned into a Bitmap and returned
                 createdMoodBoardBitmap = getBitmap(drawingView);
+                // show created mood board
                 startActivity(new Intent(CreateMoodBoardActivity.this,
                         ShowCreatedMoodBoardActivity.class));
             }
@@ -54,6 +55,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         findViewById(R.id.add_text_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // show the keyboard with 250ms delay after clicking the Add Text button
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     public void run() {
@@ -63,12 +65,16 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                     }
                 }, 250);
 
+                // null parent ViewGroup for AlertDialog
+                final ViewGroup nullParent = null;
                 // get add_text_prompts.xml view
                 LayoutInflater layoutInflater = LayoutInflater.from(CreateMoodBoardActivity.this);
-                View promptsView = layoutInflater.inflate(R.layout.add_text_prompts, null);
+                View promptsView = layoutInflater.inflate(R.layout.add_text_prompts, nullParent);
 
+                // initialize promptsView components
                 final EditText editTextUserInput = promptsView
                         .findViewById(R.id.user_input_edit_text);
+                // request focus on initialization
                 editTextUserInput.setFocusable(true);
                 editTextUserInput.setFocusableInTouchMode(true);
                 editTextUserInput.requestFocus();
@@ -96,23 +102,22 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                                         String userInput = editTextUserInput.getText().toString();
 
                                         // if the user input String is valid
-                                        if (userInput != null && userInput.length() > 0) {
+                                        if (userInput.length() > 0) {
                                             try {
-                                                // turn into a bit map
+                                                // turn the String into a bitmap
                                                 byte[] decodedString = Base64.decode(userInput, Base64.DEFAULT);
                                                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString,
                                                         0, decodedString.length);
-                                                CustomBitmapForMoodBoard tempTextCustomBitmapForMoodBoard =
-                                                        new CustomBitmapForMoodBoard(bitmap);
+                                                // create a new MoodBoardComponentBitmap object
+                                                MoodBoardComponentBitmap tempTextMoodBoardComponentBitmap =
+                                                        new MoodBoardComponentBitmap(bitmap);
 
-                                                if (tempTextCustomBitmapForMoodBoard != null) {
-                                                    drawingView.addBitmap(tempTextCustomBitmapForMoodBoard);
-                                                    textCustomBitmapForMoodBoardList.add(tempTextCustomBitmapForMoodBoard);
-                                                }
+                                                // add to drawingView
+                                                drawingView.addBitmap(tempTextMoodBoardComponentBitmap);
 
-                                                Toast.makeText(CreateMoodBoardActivity.this,
-                                                        String.valueOf(drawingView.getViews().size()) + "a",
-                                                        Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(CreateMoodBoardActivity.this,
+//                                                        String.valueOf(drawingView.getViews().size()) + "a",
+//                                                        Toast.LENGTH_SHORT).show();
 
                                             } catch (Exception e) {
                                                 e.getMessage();
@@ -139,6 +144,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             }
         });
 
+        // set offset when clicking the direction button
         findViewById(R.id.up_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,6 +173,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             }
         });
 
+        // rotate selected image by 45 or -45 degrees when clicking the rotate button
         findViewById(R.id.rotate_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,6 +188,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             }
         });
 
+        // zoom selected image in or out when clicking the zoom button
         findViewById(R.id.zoom_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -195,20 +203,22 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             }
         });
 
+        // initialize the drawingView
         init();
     }
 
     private void init() {
         for (int i = 0; i < 3; i++) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            CustomBitmapForMoodBoard customBitmapForMoodBoard = new CustomBitmapForMoodBoard(bitmap);
-            customBitmapForMoodBoard.setId(i);
-            customBitmapForMoodBoard.widthAfterScale = bitmap.getWidth();
-            customBitmapForMoodBoard.heightAfterScale = bitmap.getHeight();
-            drawingView.addBitmap(customBitmapForMoodBoard);
+            MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
+            moodBoardComponentBitmap.setId(i);
+            moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
+            moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
+            drawingView.addBitmap(moodBoardComponentBitmap);
         }
     }
 
+    // given a view, turn it into a Bitmap object
     private static Bitmap getBitmap(View view) {
         view.clearFocus();
         view.setPressed(false);
