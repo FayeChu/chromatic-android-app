@@ -1,12 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="edu.uw.wuyiz.chromatic.SetMoodBoardInfoActivity"
     tools:showIn="@layout/activity_set_mood_board_info">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/mood_board_name_user_input_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Mood Board Name"
+            android:textSize="@dimen/set_info_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/mood_board_name"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/set_info_text_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/mood_board_author_user_input_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Mood Board Author"
+            android:textSize="@dimen/set_info_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/mood_board_author"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/set_info_text_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/mood_board_date_user_input_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Mood Board Date"
+            android:textSize="@dimen/set_info_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/mood_board_date"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/set_info_text_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/mood_board_notes_user_input_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Mood Board Notes"
+            android:textSize="@dimen/set_info_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/mood_board_notes"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:hint="Intended Usage"
+            android:textSize="@dimen/set_info_text_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:imeOptions="actionNext"
+            android:singleLine="true"  />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/mood_board_description_user_input_text"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Mood Board Description"
+            android:textSize="@dimen/set_info_text_size"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_horizontal|center_vertical" />
+
+        <EditText
+            android:id="@+id/mood_board_description"
+            android:layout_width="225dp"
+            android:layout_height="190dp"
+            android:textSize="@dimen/set_info_text_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:inputType="text"
+            android:imeOptions="actionDone" />
+
+    </RelativeLayout>
+
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent"
+       android:layout_marginLeft="@dimen/margin"
+       android:layout_marginRight="@dimen/margin"
+       android:layout_marginTop="@dimen/margin"
+       android:layout_marginBottom="@dimen/margin"
+       android:layout_below="@+id/mood_board_description"
+       android:gravity="center_horizontal|center_vertical">
+
+       <Button
+           android:id="@+id/confirm_button"
+           android:layout_width="150dp"
+           android:layout_height="@dimen/button_height"
+           android:text="Confirm"/>
+
+   </LinearLayout>
+
+</LinearLayout>

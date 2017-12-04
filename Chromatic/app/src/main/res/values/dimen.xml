@@ -3,4 +3,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="button_height">60dp</dimen>
     <dimen name="button_width">75dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="margin">5dp</dimen>
+    <dimen name="set_info_text_size">16sp</dimen>
 </resources>

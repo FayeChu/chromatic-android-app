@@ -19,6 +19,8 @@ import java.util.List;
 
 public class DrawingView extends View {
 
+    private static final String TAG = "Drawing View";
+
     /**
      * Action done on the image: NONE, DRAG, and ZOOM
      */
@@ -186,8 +188,15 @@ public class DrawingView extends View {
         paint.setAntiAlias(true);
 
         for (CustomBitmap customBitmap : bitmapList) {
-            canvas.drawBitmap(customBitmap.getBitmap(), customBitmap.matrix, paint);
+            if (customBitmap != null) {
+                canvas.drawBitmap(customBitmap.getBitmap(), customBitmap.matrix, paint);
+            }
         }
+
+//        Paint anotherPaint = new Paint();
+//        anotherPaint.setColor(Color.BLACK);
+//        anotherPaint.setTextSize(20);
+//        canvas.drawText("Some Text", 10, 25, anotherPaint);
     }
 
     public void setOffset(DIRECTION direction) {
@@ -252,13 +261,12 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    public void addText() {
-        //get input and addBitmap();
-
-    }
-
     public void addBitmap(CustomBitmap customBitmap) {
         bitmapList.add(customBitmap);
+    }
+
+    public List<CustomBitmap> getViews() {
+        return bitmapList;
     }
 
     private float calculateRotation(MotionEvent motionEvent) {
@@ -326,9 +334,5 @@ public class DrawingView extends View {
         curCustomBitmap.matrix.set(curMatrix);
         curCustomBitmap.startPoint.set(motionEvent.getX(), motionEvent.getY());
         postInvalidate();
-    }
-
-    private List<CustomBitmap> getViews() {
-        return bitmapList;
     }
 }

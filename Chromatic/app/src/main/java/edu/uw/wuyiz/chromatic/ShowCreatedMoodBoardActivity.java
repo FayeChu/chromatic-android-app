@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
 
-    ImageView createdMoodBoardImage;
+    private static ImageView createdMoodBoardImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,21 +31,13 @@ public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
         findViewById(R.id.save_mood_board_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(
-                        ShowCreatedMoodBoardActivity.this,
-                        "Click this button will save the mood board",
-                        Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(
+//                        ShowCreatedMoodBoardActivity.this,
+//                        "Click this button will save the mood board",
+//                        Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ShowCreatedMoodBoardActivity.this,
                         SetMoodBoardInfoActivity.class));
             }
         });
     }
 }
-
-/*
-    Karen :
-        Creating a mood board options
-            (1) A particular view as a collection of palettes / pictures
-            (2) having an exportable image (which moodboards are typically used as)
- */
