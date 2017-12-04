@@ -9,8 +9,10 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -35,7 +37,8 @@ public class DrawingView extends View {
         UP, DOWN, LEFT, RIGHT
     }
 
-    private List<MoodBoardComponentBitmap> bitmapList;
+    protected List<MoodBoardComponentBitmap> bitmapList;
+
     private Context curContext;
     private MoodBoardComponentBitmap curMoodBoardComponentBitmap;
     private Matrix curMatrix;
@@ -185,6 +188,10 @@ public class DrawingView extends View {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
+
+//        Toast.makeText(getContext(),
+//                "onDraw is called on " + Calendar.getInstance().getTime() + " in " + getContext().toString(),
+//                Toast.LENGTH_SHORT).show();
 
         for (MoodBoardComponentBitmap moodBoardComponentBitmap : bitmapList) {
             if (moodBoardComponentBitmap != null) {

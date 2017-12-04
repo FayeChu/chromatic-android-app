@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +58,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         findViewById(R.id.add_text_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // show the keyboard with 250ms delay after clicking the Add Text button
+                // show the keyboard with 150ms delay after clicking the Add Text button
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     public void run() {
@@ -63,7 +66,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                                 (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     }
-                }, 250);
+                }, 150);
 
                 // null parent ViewGroup for AlertDialog
                 final ViewGroup nullParent = null;
@@ -99,24 +102,47 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         // get user input and transform to String
-                                        String userInput = editTextUserInput.getText().toString();
+                                        String userInputText = editTextUserInput.getText().toString();
 
-                                        // if the user input String is valid
-                                        if (userInput.length() > 0) {
+                                        // if the user input string is valid
+                                        if (userInputText.length() > 0) {
                                             try {
-                                                // turn the String into a bitmap
-                                                byte[] decodedString = Base64.decode(userInput, Base64.DEFAULT);
-                                                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString,
-                                                        0, decodedString.length);
+                                                // draw the string on a new bitmap's canvas
+                                                // and add the bitmap to the drawingView
+                                                Paint paint = new Paint();
+                                                paint.setStyle(Paint.Style.FILL);
+                                                paint.setAntiAlias(true);
+                                                paint.setTextSize(60.0F);
+                                                paint.setColor(Color.BLACK);
+                                                float baseline = -paint.ascent();
+                                                int width = (int) (paint.measureText(userInputText)
+                                                        + 0.5f);
+                                                int height = (int) (baseline + paint.descent() + 0.5f);
+
+                                                Bitmap textBitmap = Bitmap.createBitmap(
+                                                        width, height, Bitmap.Config.ARGB_8888);
+                                                Canvas canvas = new Canvas(textBitmap);
+                                                canvas.drawText(userInputText, 0, baseline, paint);
+
+//                                                byte[] decodedString = Base64.decode(userInput, Base64.DEFAULT);
+//                                                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString,
+//                                                        0, decodedString.length);
+
                                                 // create a new MoodBoardComponentBitmap object
                                                 MoodBoardComponentBitmap tempTextMoodBoardComponentBitmap =
-                                                        new MoodBoardComponentBitmap(bitmap);
+                                                        new MoodBoardComponentBitmap(textBitmap);
+                                                tempTextMoodBoardComponentBitmap.setId(
+                                                        drawingView.bitmapList.size() + 1);
+                                                tempTextMoodBoardComponentBitmap.widthAfterScale =
+                                                        textBitmap.getWidth();
+                                                tempTextMoodBoardComponentBitmap.heightAfterScale =
+                                                        textBitmap.getHeight();
 
                                                 // add to drawingView
                                                 drawingView.addBitmap(tempTextMoodBoardComponentBitmap);
 
 //                                                Toast.makeText(CreateMoodBoardActivity.this,
-//                                                        String.valueOf(drawingView.getViews().size()) + "a",
+//                                                        String.valueOf(drawingView.bitmapList.size()) + "a",
 //                                                        Toast.LENGTH_SHORT).show();
 
                                             } catch (Exception e) {

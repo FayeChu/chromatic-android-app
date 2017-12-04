@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SetMoodBoardInfoActivity extends AppCompatActivity {
@@ -39,8 +40,8 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
         final EditText moodBoardAuthorUserInput = findViewById(R.id.mood_board_author);
         final EditText moodBoardDateUserInput = findViewById(R.id.mood_board_date);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        moodBoardDateUserInput.setText(simpleDateFormat.format(new Date()));
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        moodBoardDateUserInput.setText((Calendar.getInstance().getTime()).toString());
 
         final EditText moodBoardNotesUserInput = findViewById(R.id.mood_board_notes);
         final EditText moodBoardDescriptionUserInput = findViewById(R.id.mood_board_description);
