@@ -13,13 +13,13 @@
         android:id="@+id/action_gallery"
         android:enabled="true"
         android:icon="@drawable/ic_palette_white_24px"
-        android:title="Gallery"
+        android:title="Palette Gallery"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_creations"
         android:enabled="true"
         android:icon="@drawable/ic_save_white_24px"
-        android:title="Collections"
+        android:title="MoodBoard Gallery"
         app:showAsAction="ifRoom" />
 
 </menu>

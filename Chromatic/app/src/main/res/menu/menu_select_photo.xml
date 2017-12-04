@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MoodPreviewActivity">
 
-    <item android:id="@+id/action_palette"
-        android:title="@string/action_palette"
+    <item android:id="@+id/action_select_done"
+        android:title="@string/action_select_done"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
