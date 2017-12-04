@@ -4,18 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 
-import java.io.File;
-
 /**
  * Custom Bitmap class for manipulation in creating Mood Boards
  *
  * Created by wuyiz on 11/28/17.
  */
 
-public class CustomBitmap {
+public class CustomBitmapForMoodBoard {
 
-    private int id;
-
+    public int id;
     public int x;
     public int y;
     public int widthAfterScale;
@@ -26,15 +23,12 @@ public class CustomBitmap {
     public float oldRotation;
     public float newRotation;
 
-    public File file;
-    public String url;
-    public String name;
     public Matrix matrix;
     public PointF startPoint;
     public PointF midPoint;
     public Bitmap bitmap;
 
-    public CustomBitmap(Bitmap bitmap) {
+    public CustomBitmapForMoodBoard(Bitmap bitmap) {
         this.oldRotation = 0;
         this.newRotation = 0;
         this.startPoint = new PointF();
@@ -120,30 +114,6 @@ public class CustomBitmap {
 
     public void setNewRotation(float newRotation) {
         this.newRotation = newRotation;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Matrix getMatrix() {

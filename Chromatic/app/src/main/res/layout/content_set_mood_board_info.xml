@@ -156,9 +156,7 @@
             android:layout_height="190dp"
             android:textSize="@dimen/set_info_text_size"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:inputType="text"
-            android:imeOptions="actionDone" />
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 

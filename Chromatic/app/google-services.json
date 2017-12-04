@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "876623836340",
+    "firebase_url": "https://chromatic-android-app.firebaseio.com",
+    "project_id": "chromatic-android-app",
+    "storage_bucket": "chromatic-android-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876623836340:android:9bb363241a73fbac",
+        "android_client_info": {
+          "package_name": "edu.uw.wuyiz.chromatic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876623836340-oa216f3ivdse28bif6lfbohh19u4htks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.uw.wuyiz.chromatic",
+            "certificate_hash": "2dcf3a1315560f2db4e5b569c4567249c2271431"
+          }
+        },
+        {
+          "client_id": "876623836340-vnqn9j1glc1b4i8o87t26jhepass137a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgqcnM2kP0xBUMQqX5RCAUjsks92PJees"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876623836340-vnqn9j1glc1b4i8o87t26jhepass137a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

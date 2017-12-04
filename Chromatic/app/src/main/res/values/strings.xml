@@ -11,4 +11,12 @@
     <string name="action_import_image">Import an image</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_import">IMPORT</string>
+
+    <string name="mood_board_name_storage_key">Mood Board Name</string>
+    <string name="mood_board_author_storage_key">Mood Board Author</string>
+    <string name="mood_board_date_storage_key">Mood Board Date</string>
+    <string name="mood_board_notes_storage_key">Mood Board Notes</string>
+    <string name="mood_board_description_storage_key">Mood Board Description</string>
+    <string name="mood_board_bitmap_storage_key">Mood Board Bitmap</string>
+    <string name="mood_board_collection_storage_key">Mood Board Collection</string>
 </resources>

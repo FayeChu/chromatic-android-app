@@ -26,7 +26,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
     public static Bitmap createdMoodBoardBitmap;
 
-    public static List<CustomBitmap> textCustomBitmapList;
+    public static List<CustomBitmapForMoodBoard> textCustomBitmapForMoodBoardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
         drawingView = (DrawingView) findViewById(R.id.drawing_view);
         createdMoodBoardBitmap = null;
-        textCustomBitmapList = new ArrayList<>();
+        textCustomBitmapForMoodBoardList = new ArrayList<>();
 
         findViewById(R.id.create_mood_board_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,12 +102,12 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                                                 byte[] decodedString = Base64.decode(userInput, Base64.DEFAULT);
                                                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString,
                                                         0, decodedString.length);
-                                                CustomBitmap tempTextCustomBitmap =
-                                                        new CustomBitmap(bitmap);
+                                                CustomBitmapForMoodBoard tempTextCustomBitmapForMoodBoard =
+                                                        new CustomBitmapForMoodBoard(bitmap);
 
-                                                if (tempTextCustomBitmap != null) {
-                                                    drawingView.addBitmap(tempTextCustomBitmap);
-                                                    textCustomBitmapList.add(tempTextCustomBitmap);
+                                                if (tempTextCustomBitmapForMoodBoard != null) {
+                                                    drawingView.addBitmap(tempTextCustomBitmapForMoodBoard);
+                                                    textCustomBitmapForMoodBoardList.add(tempTextCustomBitmapForMoodBoard);
                                                 }
 
                                                 Toast.makeText(CreateMoodBoardActivity.this,
@@ -201,11 +201,11 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
     private void init() {
         for (int i = 0; i < 3; i++) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            CustomBitmap customBitmap = new CustomBitmap(bitmap);
-            customBitmap.setId(i);
-            customBitmap.widthAfterScale = bitmap.getWidth();
-            customBitmap.heightAfterScale = bitmap.getHeight();
-            drawingView.addBitmap(customBitmap);
+            CustomBitmapForMoodBoard customBitmapForMoodBoard = new CustomBitmapForMoodBoard(bitmap);
+            customBitmapForMoodBoard.setId(i);
+            customBitmapForMoodBoard.widthAfterScale = bitmap.getWidth();
+            customBitmapForMoodBoard.heightAfterScale = bitmap.getHeight();
+            drawingView.addBitmap(customBitmapForMoodBoard);
         }
     }
 
