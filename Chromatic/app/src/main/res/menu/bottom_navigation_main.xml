@@ -7,7 +7,7 @@
         android:id="@+id/action_moodboards"
         android:enabled="true"
         android:icon="@drawable/ic_create_white_24px"
-        android:title="MoodBoards"
+        android:title="New Mood Board"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_gallery"
@@ -19,7 +19,7 @@
         android:id="@+id/action_creations"
         android:enabled="true"
         android:icon="@drawable/ic_save_white_24px"
-        android:title="MoodBoard Gallery"
+        android:title="Mood Board Gallery"
         app:showAsAction="ifRoom" />
 
 </menu>
