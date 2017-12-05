@@ -82,10 +82,10 @@ public class MoodPreviewActivity extends AppCompatActivity implements Palette.Pa
         switch (item.getItemId()) {
             case R.id.action_palette:
                 //go to palette activity
-//                Intent intent = new Intent(this, GalleryScreenActivity.class);
-//                intent.putExtra("uri", imageUri.toString());
-//                startActivity(intent);
-//                return true;
+                Intent intent = new Intent(this, CreatePaletteActivity.class);
+                intent.putExtra("uri", imageUri.toString());
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

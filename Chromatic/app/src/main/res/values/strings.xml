@@ -1,18 +1,29 @@
 <resources>
+
     <string name="app_name">Chromatic</string>
-    <string name="title_activity_create_mood_board">Create New Mood Board</string>
-    <string name="title_activity_show_created_mood_board">Show Created Mood Board</string>
-    <string name="title_activity_set_mood_board_info">Set Mood Board Info</string>
-    <string name="title_activity_gallery_screen">Palette Gallery</string>
+
+    <string name="title_activity_create_mood_board">Create New Mood Board Activity</string>
+    <string name="title_activity_show_created_mood_board">Show Created Mood Board Activity</string>
+    <string name="title_activity_set_mood_board_info">Set Mood Board Info Activity</string>
+    <string name="title_activity_gallery_screen">Palette Gallery Activity</string>
+    <string name="title_activity_creations">MoodBoard Gallery Activity</string>
+    <string name="title_activity_main">Main Activity</string>
+    <string name="title_activity_select_photo">Select Photo Activity</string>
+    <string name="title_activity_mood_preview">Mood Preview Activity</string>
+    <string name="title_activity_create_palette">Create Palette Activity</string>
+    <string name="title_activity_set_palette_info">Set Palette Info Activity</string>
+    <string name="title_next">next</string>
+
+    <string name="action_import">IMPORT</string>
+    <string name="action_import_image">Import an image</string>
     <string name="action_pick_image">Pick an image</string>
+    <string name="action_palette">Custom Palette</string>
+    <string name="action_select_done">Done</string>
+
     <string name="decode_failed">Image decoding failed</string>
     <string name="io_failed">IO operation failed</string>
-    <string name="title_activity_creations">MoodBoard Gallery</string>
-    <string name="action_import_image">Import an image</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="action_import">IMPORT</string>
-    <string name="mood_board_collection_storage_key">Mood Board Collection</string>
-    <string name="action_palette">Custom Palette</string>
-    <string name="title_activity_select_photo">Select Photo</string>
-    <string name="action_select_done">Done</string>
+
+    <string name="mood_board_collection_storage_key">MoodBoardCollection</string>
+    <string name="palette_collection_storage_key">PaletteCollection</string>
+
 </resources>
