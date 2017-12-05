@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Tue Nov 28 14:44:31 PST 2017
+0.baseType=DIRECTORY
+0.base=C\:\\Users\\leeka\\Documents\\INFO 448\\chromatic-android-app\\app\\build\\intermediates\\transforms\\dex\\release\\0
+0.path=classes.dex
+0.set=DEX
+count=1

@@ -1,0 +1,4 @@
+#Tue Nov 28 11:10:18 PST 2017
+base.0=C\:\\Users\\leeka\\Documents\\INFO 448\\chromatic-android-app\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\1
+path.0=classes.dex
+renamed.0=classes.dex

@@ -15,4 +15,8 @@
     <string name="action_palette">Custom Palette</string>
     <string name="title_activity_select_photo">Select Photo</string>
     <string name="action_select_done">Done</string>
+    <string name="title_activity_create_palette">CreatePaletteActivity</string>
+    <string name="title_activity_set_palette_info">SetPaletteInfoActivity</string>
+
+    <string name="title_next">next</string>
 </resources>

@@ -30,6 +30,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -41,7 +43,9 @@ import java.util.Calendar;
 
 public class SetPaletteInfoActivity extends AppCompatActivity {
 
-    int[] colors;
+    private int[] colors;
+    private DatabaseReference mDatabase;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class SetPaletteInfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = getIntent();
         colors = intent.getIntArrayExtra("colors");
@@ -62,7 +68,7 @@ public class SetPaletteInfoActivity extends AppCompatActivity {
             boxes[i].setBackgroundColor(colors[i]);
         }
 
-        Uri imageUri = Uri.parse(intent.getStringExtra("uri"));
+        imageUri = Uri.parse(intent.getStringExtra("uri"));
         ImageView image = findViewById(R.id.image);
         try {
             final InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -136,22 +142,32 @@ public class SetPaletteInfoActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(pName.getText())) {
                     Toast message = Toast.makeText(getApplicationContext(), "Set Palette Name", Toast.LENGTH_SHORT);
                     message.show();
-                }
-                Log.v("name", pName.getText().toString());
-                // Palette Location
-                TextView pLocation = findViewById(R.id.txt_location);
-                Log.v("location", pLocation.getText().toString());
-                // Palette Date
-                TextView pDate = findViewById(R.id.txt_date);
-                Log.v("date", pDate.getText().toString());
-                // Palette Colors // Convert to hex codes
-                Log.v("colors", Arrays.toString(colors));
-                // Palette Notes
-                EditText pNote = findViewById(R.id.palette_desc);
-                Log.v("Note", pNote.getText().toString());
+                } else {
+                    Log.v("name", pName.getText().toString());
+                    // Palette Location
+                    TextView pLocation = findViewById(R.id.txt_location);
+                    Log.v("location", pLocation.getText().toString());
+                    // Palette Date
+                    TextView pDate = findViewById(R.id.txt_date);
+                    Log.v("date", pDate.getText().toString());
+                    // Palette Colors // Convert to hex codes
+                    Log.v("colors", Arrays.toString(colors));
+                    // Palette Notes
+                    EditText pNote = findViewById(R.id.palette_desc);
+                    Log.v("Note", pNote.getText().toString());
 
-                Intent intent = new Intent(SetPaletteInfoActivity.this, GalleryScreenActivity.class);
-                startActivity(intent);
+                    // Upload palette information to Firebase
+                    // Name / location / colors / notes / image
+                    // Storage -> image
+                    Palette palette = new Palette(pName.getText().toString(), imageUri.toString(),
+                            colors[0], colors[1], colors[2], colors[3], colors[4]);
+                    mDatabase.child("palette")
+                            .child(mDatabase.push().getKey())
+                            .setValue(palette);
+
+                    Intent intent = new Intent(SetPaletteInfoActivity.this, GalleryScreenActivity.class);
+                    startActivity(intent);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

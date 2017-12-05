@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.uw.wuyiz.chromatic">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,7 +24,6 @@
         <activity
             android:name=".GalleryScreenActivity"
             android:label="@string/title_activity_gallery_screen" />
-
         <activity
             android:name=".MoodPreviewActivity"
             android:configChanges="orientation"
@@ -36,7 +34,7 @@
             android:label="@string/title_activity_creations" />
         <activity
             android:name=".CreateMoodBoardActivity"
-            android:label="@string/title_activity_create_mood_board"></activity>
+            android:label="@string/title_activity_create_mood_board" />
         <activity
             android:name=".ShowCreatedMoodBoardActivity"
             android:label="@string/title_activity_show_created_mood_board" />
@@ -46,7 +44,18 @@
         <activity
             android:name=".SelectPhotoActivity"
             android:label="@string/title_activity_select_photo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreatePaletteActivity"
+            android:label="@string/title_activity_create_palette"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SetPaletteInfoActivity"
+            android:label="@string/title_activity_set_palette_info"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBQ78fhq74O_weuzhfjDW44c7nn4HPL-50"/>
     </application>
 
 </manifest>
