@@ -67,7 +67,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                 final String moodBoardDate = moodBoardDateUserInput.getText().toString();
                 final String moodBoardNotes = moodBoardNotesUserInput.getText().toString();
                 final String moodBoardDescription = moodBoardDescriptionUserInput.getText().toString();
-                final String moodBoardId = moodBoardName;
+                final String moodBoardId = moodBoardName + moodBoardAuthor;
 
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -77,7 +77,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                                     SetMoodBoardInfoActivity.this,
                                     "Mood Board "
                                             + moodBoardId
-                                            + " already exists, please enter a new name",
+                                            + " already exists, please enter a new name or author",
                                     Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -90,7 +90,8 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                                     moodBoardDescription,
                                     CreateMoodBoardActivity.createdMoodBoardBitmap);
 
-                            databaseReference.child(moodBoardId).setValue(newMoodBoardObject);
+                            databaseReference.child(databaseReference
+                                    .push().getKey()).setValue(newMoodBoardObject);
 
                             Toast.makeText(
                                     SetMoodBoardInfoActivity.this,
