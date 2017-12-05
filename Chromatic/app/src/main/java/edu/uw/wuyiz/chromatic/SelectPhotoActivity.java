@@ -48,11 +48,11 @@ public class SelectPhotoActivity extends AppCompatActivity {
 ////                                Intent selectPhotoIntent = new Intent(getApplicationContext(), SelectPhotoActivity.class);
 ////                                startActivity(selectPhotoIntent);
 //                            case R.id.action_gallery:
-//                                Intent galleryIntent = new Intent(getApplicationContext(), GalleryScreenActivity.class);
+//                                Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
 //                                startActivity(galleryIntent);
 //                                return true;
 //                            case R.id.action_creations:
-//                                Intent creationsIntent = new Intent(getApplicationContext(), CreationsActivity.class);
+//                                Intent creationsIntent = new Intent(getApplicationContext(), MoodBoardGalleryScreenActivity.class);
 //                                startActivity(creationsIntent);
 //
 //                        }

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.uw.wuyiz.chromatic.CreationsActivity"
-    >
+    tools:context="edu.uw.wuyiz.chromatic.PaletteGalleryScreenActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -23,8 +22,6 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:menu="@menu/bottom_navigation_main"
-        tools:layout_editor_absoluteY="33dp"
-        tools:layout_editor_absoluteX="8dp" />
+        app:menu="@menu/bottom_navigation_main" />
 
 </RelativeLayout>

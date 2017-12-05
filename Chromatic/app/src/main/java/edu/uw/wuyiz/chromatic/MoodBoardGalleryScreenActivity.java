@@ -9,27 +9,22 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.lwj.widget.picturebrowser.PictureBrowser;
-import com.lwj.widget.picturebrowser.PictureFragment;
-import com.lwj.widget.picturebrowser.PictureLoader;
 
 import java.util.ArrayList;
 
-public class CreationsActivity extends AppCompatActivity {
+public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
     private static final String KEY_IMAGE_URI = "image_uri";
 
@@ -42,7 +37,7 @@ public class CreationsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creations);
+        setContentView(R.layout.activity_mood_board_gallery_screen);
 
         moodboardList = new ArrayList<>();
         mBitmaps = new ArrayList<>();
@@ -59,10 +54,10 @@ public class CreationsActivity extends AppCompatActivity {
                                 Intent moodBoardsIntent = new Intent(getApplicationContext(), CreateMoodBoardActivity.class);
                                 startActivity(moodBoardsIntent);
                             case R.id.action_gallery:
-                                Intent galleryIntent = new Intent(getApplicationContext(), GalleryScreenActivity.class);
+                                Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
                                 startActivity(galleryIntent);
                             case R.id.action_creations:
-//                                Intent creationsIntent = new Intent(getApplicationContext(), CreationsActivity.class);
+//                                Intent creationsIntent = new Intent(getApplicationContext(), MoodBoardGalleryScreenActivity.class);
 //                                startActivity(creationsIntent);
                                 return true;
 
@@ -117,11 +112,11 @@ public class CreationsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
 
-        final CreationsActivity.MyRecyclerAdapter2 adapter = new CreationsActivity.MyRecyclerAdapter2(mBitmaps);
+        final MoodBoardGalleryScreenActivity.MyRecyclerAdapter2 adapter = new MoodBoardGalleryScreenActivity.MyRecyclerAdapter2(mBitmaps);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
-//        CreationsActivity.SpacesItemDecoration decoration = new CreationsActivity.SpacesItemDecoration(8);
+//        MoodBoardGalleryScreenActivity.SpacesItemDecoration decoration = new MoodBoardGalleryScreenActivity.SpacesItemDecoration(8);
 //        recyclerView.addItemDecoration(decoration);
 //        final PictureLoader pictureLoader = new PictureLoader() {
 //            @Override
@@ -132,7 +127,7 @@ public class CreationsActivity extends AppCompatActivity {
 //                        .into(photoView);
 //            }
 //        };
-//        adapter.setOnItemClickListener(new GalleryScreenActivity.OnItemClickListener() {
+//        adapter.setOnItemClickListener(new PaletteGalleryScreenActivity.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View view, int position) {
 //
@@ -189,7 +184,7 @@ public class CreationsActivity extends AppCompatActivity {
 //        }
         }
     }
-    class MyRecyclerAdapter2 extends RecyclerView.Adapter<CreationsActivity.MyViewHolder> implements View.OnClickListener {
+    class MyRecyclerAdapter2 extends RecyclerView.Adapter<MoodBoardGalleryScreenActivity.MyViewHolder> implements View.OnClickListener {
 
         private ArrayList<Bitmap> mBitmaps;
 
@@ -203,15 +198,15 @@ public class CreationsActivity extends AppCompatActivity {
         }
 
         @Override
-        public CreationsActivity.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MoodBoardGalleryScreenActivity.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.creations_list, parent, false);
             view.setOnClickListener(this);
-            return new CreationsActivity.MyViewHolder(view);
+            return new MoodBoardGalleryScreenActivity.MyViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(CreationsActivity.MyViewHolder holder, final int position) {
-            Glide.with(CreationsActivity.this)
+        public void onBindViewHolder(MoodBoardGalleryScreenActivity.MyViewHolder holder, final int position) {
+            Glide.with(MoodBoardGalleryScreenActivity.this)
                     .load(mBitmaps.get(position))
                     .into(holder.mTvPicture);
             holder.itemView.setTag(position);
@@ -221,7 +216,7 @@ public class CreationsActivity extends AppCompatActivity {
         public int getItemCount() {
             return mBitmaps.size();
         }
-        private GalleryScreenActivity.OnItemClickListener mOnItemClickListener = null;
+        private PaletteGalleryScreenActivity.OnItemClickListener mOnItemClickListener = null;
 
 
         @Override
@@ -231,7 +226,7 @@ public class CreationsActivity extends AppCompatActivity {
             }
         }
 
-        public void setOnItemClickListener(GalleryScreenActivity.OnItemClickListener listener) {
+        public void setOnItemClickListener(PaletteGalleryScreenActivity.OnItemClickListener listener) {
             this.mOnItemClickListener = listener;
         }
     }

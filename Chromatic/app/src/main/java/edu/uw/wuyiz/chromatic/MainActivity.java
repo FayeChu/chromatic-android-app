@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity{
         btn_view_gallery.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent galleryIntent = new Intent(getApplicationContext(), GalleryScreenActivity.class);
+                Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
                 startActivity(galleryIntent);
             }
         });

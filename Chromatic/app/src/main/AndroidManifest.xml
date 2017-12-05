@@ -28,8 +28,8 @@
         </activity>
 
         <activity
-            android:name=".GalleryScreenActivity"
-            android:label="@string/title_activity_gallery_screen" />
+            android:name=".PaletteGalleryScreenActivity"
+            android:label="@string/title_activity_palette_gallery_screen" />
 
         <activity
             android:name=".MoodPreviewActivity"
@@ -38,8 +38,8 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".CreationsActivity"
-            android:label="@string/title_activity_creations" />
+            android:name=".MoodBoardGalleryScreenActivity"
+            android:label="@string/title_activity_mood_board_gallery_screen" />
 
         <activity
             android:name=".CreateMoodBoardActivity"

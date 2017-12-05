@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +17,13 @@ import android.widget.ImageView;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.lwj.widget.picturebrowser.PictureBrowser;
 import com.lwj.widget.picturebrowser.PictureFragment;
 import com.lwj.widget.picturebrowser.PictureLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class GalleryScreenActivity extends AppCompatActivity {
+public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PICK_IMAGE = 0;
     private static final String KEY_IMAGE_URI = "image_uri";
@@ -40,7 +36,7 @@ public class GalleryScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery_screen);
+        setContentView(R.layout.activity_palette_gallery_screen);
 
         Intent intent = getIntent();
         uri = intent.getStringExtra("uri");
@@ -57,11 +53,11 @@ public class GalleryScreenActivity extends AppCompatActivity {
                                 Intent selectPhotoIntent = new Intent(getApplicationContext(), SelectPhotoActivity.class);
                                 startActivity(selectPhotoIntent);
                             case R.id.action_gallery:
-//                                Intent galleryIntent = new Intent(getApplicationContext(), GalleryScreenActivity.class);
+//                                Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
 //                                startActivity(galleryIntent);
                                 return true;
                             case R.id.action_creations:
-                                Intent creationsIntent = new Intent(getApplicationContext(), CreationsActivity.class);
+                                Intent creationsIntent = new Intent(getApplicationContext(), MoodBoardGalleryScreenActivity.class);
                                 startActivity(creationsIntent);
 
                         }
@@ -236,7 +232,7 @@ public class GalleryScreenActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, final int position) {
-            Glide.with(GalleryScreenActivity.this)
+            Glide.with(PaletteGalleryScreenActivity.this)
                     .load(mUrlList.get(position))
                     .into(holder.mTvPicture);
             //将position保存在itemView的Tag中，以便点击时进行获取

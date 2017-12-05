@@ -168,7 +168,7 @@ public class SetPaletteInfoActivity extends AppCompatActivity {
                             .child(mDatabase.push().getKey())
                             .setValue(palette);
 
-                    Intent intent = new Intent(SetPaletteInfoActivity.this, GalleryScreenActivity.class);
+                    Intent intent = new Intent(SetPaletteInfoActivity.this, PaletteGalleryScreenActivity.class);
                     startActivity(intent);
                 }
                 return true;

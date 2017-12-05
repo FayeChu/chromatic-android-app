@@ -72,7 +72,14 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child(moodBoardId).exists()) {
+                        if (moodBoardName == null || moodBoardName.trim().length() <= 0) {
+
+                            Toast.makeText(
+                                    SetMoodBoardInfoActivity.this,
+                                    "Please enter a name for the mood board",
+                                    Toast.LENGTH_SHORT).show();
+
+                        } else if (dataSnapshot.child(moodBoardId).exists()) {
                             Toast.makeText(
                                     SetMoodBoardInfoActivity.this,
                                     "Mood Board "
@@ -102,7 +109,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
 
                             Intent galleryIntent = new Intent(
                                     getApplicationContext(),
-                                    GalleryScreenActivity.class);
+                                    MoodBoardGalleryScreenActivity.class);
                             startActivity(galleryIntent);
                         }
                     }
