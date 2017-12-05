@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "876623836340-af2nj4kv0hpfo8ahf5jrg9lhb5njmudd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.uw.wuyiz.chromatic",
+            "certificate_hash": "f6f24db5625a78e1f39568c54b48b9c5ac32cea6"
+          }
+        },
+        {
           "client_id": "876623836340-oa216f3ivdse28bif6lfbohh19u4htks.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

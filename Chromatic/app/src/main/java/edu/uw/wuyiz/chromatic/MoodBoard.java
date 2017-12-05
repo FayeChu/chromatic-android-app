@@ -8,7 +8,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
  * Created by wuyiz on 11/28/17.
  */
 
-@IgnoreExtraProperties
+//@IgnoreExtraProperties
 public class MoodBoard {
 
     public String moodBoardId;
