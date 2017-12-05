@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_11"
+    android:background="@drawable/background_15"
     >
 
     <Button
         android:id="@+id/button_take_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/button_style"
         android:padding="10dp"
         android:layout_marginLeft="50dp"
