@@ -160,6 +160,7 @@ public class SetPaletteInfoActivity extends AppCompatActivity {
                     // Name / location / colors / notes / image
                     // Storage -> image
                     Palette palette = new Palette(pName.getText().toString(), imageUri.toString(),
+                            pLocation.getText().toString(), pDate.getText().toString(),
                             colors[0], colors[1], colors[2], colors[3], colors[4]);
                     mDatabase.child("palette")
                             .child(mDatabase.push().getKey())
