@@ -2,27 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_11"
+    >
 
     <Button
         android:id="@+id/button_take_photo"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:text="TAKE A PHOTO"
-        android:layout_margin="10px" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        android:background="@drawable/button_style"
+        android:padding="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textColor="@color/black"
+        android:text="Take a Photo " />
 
     <Button
         android:id="@+id/button_import_photo"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:text="IMPORT A PHOTO"
-        android:layout_margin="10px" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_style"
+        android:padding="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textColor="@color/black"
+        android:text="Import a Photo" />
 
     <Button
         android:id="@+id/button_view_gallery"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:text="VIEW GALLERY"
-        android:layout_margin="10px" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_style"
+        android:padding="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:textColor="@color/black"
+        android:text="View Gallery" />
 </LinearLayout>
