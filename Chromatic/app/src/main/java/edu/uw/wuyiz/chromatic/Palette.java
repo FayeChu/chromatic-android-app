@@ -9,6 +9,8 @@ import android.net.Uri;
 public class Palette {
     public String name;
     public String imageUri;
+    public String location;
+    public String date;
     public int colorOne;
     public int colorTwo;
     public int colorThree;
@@ -19,10 +21,12 @@ public class Palette {
 
     }
 
-    public Palette(String name, String imageUri, int colorOne, int colorTwo, int colorThree,
+    public Palette(String name, String imageUri, String location, String date, int colorOne, int colorTwo, int colorThree,
                     int colorFour, int colorFive) {
         this.name = name;
         this.imageUri = imageUri;
+        this.location = location;
+        this.date = date;
         this.colorOne = colorOne;
         this.colorTwo = colorTwo;
         this.colorThree = colorThree;
