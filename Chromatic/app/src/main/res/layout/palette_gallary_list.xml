@@ -32,31 +32,31 @@
 
             <ImageView
                 android:id="@+id/palette_color_one"
-                android:layout_width="wrap_content"
+                android:layout_width="38dp"
                 android:layout_height="match_parent" />
 
 
             <ImageView
                 android:id="@+id/palette_color_two"
-                android:layout_width="wrap_content"
+                android:layout_width="38dp"
                 android:layout_height="match_parent" />
 
 
             <ImageView
                 android:id="@+id/palette_color_three"
-                android:layout_width="wrap_content"
+                android:layout_width="38dp"
                 android:layout_height="match_parent" />
 
 
             <ImageView
                 android:id="@+id/palette_color_four"
-                android:layout_width="wrap_content"
+                android:layout_width="38dp"
                 android:layout_height="match_parent" />
 
 
             <ImageView
                 android:id="@+id/palette_color_five"
-                android:layout_width="wrap_content"
+                android:layout_width="38dp"
                 android:layout_height="match_parent" />
 
         </LinearLayout>
