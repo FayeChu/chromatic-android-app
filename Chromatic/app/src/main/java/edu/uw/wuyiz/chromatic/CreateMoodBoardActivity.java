@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 import android.Manifest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +72,19 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                 // when clicking Create, all the MoodBoardComponentBitmap objects
                 // in the drawingView are turned into a Bitmap and returned
                 createdMoodBoardBitmap = getBitmap(drawingView);
-                createdMoodBoardBitmap.setHasAlpha(true);
+//
+//                Bitmap mutableBitmap = createdMoodBoardBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//                Canvas canvas = new Canvas(mutableBitmap);
+//                int colour = (255 & 0xFF) << 24;
+//                canvas.drawColor(colour, PorterDuff.Mode.DST_IN);
+//                createdMoodBoardBitmap = mutableBitmap;
+//                createdMoodBoardBitmap.setHasAlpha(true);
+//                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//                createdMoodBoardBitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+//                Canvas c = new Canvas(createdMoodBoardBitmap);
+//                c.drawColor(0, PorterDuff.Mode.CLEAR);
+//                createdMoodBoardBitmap.compress(Bitmap.CompressFormat.PNG, 80, out);
+
                 // show created mood board
                 startActivity(new Intent(CreateMoodBoardActivity.this,
                         ShowCreatedMoodBoardActivity.class));

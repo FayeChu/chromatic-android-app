@@ -131,13 +131,13 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public String bitmapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b = baos.toByteArray();
-        String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
-        return bitmapString;
-    }
+//    public String bitmapToString(Bitmap bitmap){
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+//        byte [] b = baos.toByteArray();
+//        String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
+//        return bitmapString;
+//    }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
