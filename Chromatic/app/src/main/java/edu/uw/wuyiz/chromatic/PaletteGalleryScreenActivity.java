@@ -101,8 +101,8 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
         final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 
-        width = 190;
-        height = 190;
+        width = 170;
+        height = 170;
 
         mUrlList = new ArrayList<>();
         mColorOne = new ArrayList<>();
