@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void pickImageFromAlbum() {
         Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
 

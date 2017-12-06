@@ -2,6 +2,7 @@ package edu.uw.wuyiz.chromatic;
 
 import android.*;
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import android.Manifest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -264,9 +267,9 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
     }
 
     private void checkDiskPermission() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -305,8 +308,11 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         try {
             checkDiskPermission();
             Uri imageUri = Uri.parse(imageUriStr);
-//            CreateMoodBoardActivity.grantUriPermission(mActivity.getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
+//            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//            final int takeFlags = intent.getFlags()
+//                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//            getContentResolver().takePersistableUriPermission(imageUri, takeFlags);
             final InputStream imageStream = getContentResolver().openInputStream(imageUri);
             final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
 
