@@ -18,9 +18,11 @@ Chromatic is a camera application allowing designers, artists, photographers, an
 ### How to use it
 * 1. Choose a picture by either taking a photo or import a photo from your mobile phone.
 * 2. On the Mood Preview screen, click on custom palette to create your palette.
-* 3. On create palette screen, click one of the the small blank boxes below the picture and select a color from the picture by clicking on the point you want, repeat this step until you fill all small color boxes and click Next.
+* 3. On create palette screen, click one of the the small blank boxes below the picture and select a color from the picture by clicking on the point you want, repeat this step to extract colors, click Next.
 * 4. On set palette info screen, give your palette a name, location, and date you created this palette, click save.
-* 5. On palette gallery screen, you could click on New Mood Board to create your customized mood board, then select pictures and colors by ticking the small box.
-* 6. After clicking on save, you need to set your mood board information by entering mood board name, author, date and note, then confirm.
-* 7. You can view your creations on Mood Board Gallery Screen.
+* 5. On palette gallery screen, you will see your created palette here, and you can click on New Mood Board on the bottom left to create your customized mood board, then select pictures and colors by ticking the small box, click Done.
+* 6. On create new mood board screen, drag the pictures you selected and make a mood board in a way you want.
+* 7. After clicking on Create you will see your mood board preview here, click on save to continue. 
+* 8. You need to set your mood board information by entering mood board name, author, date and note, then confirm.
+* 9. You can view your creations on Mood Board Gallery Screen.
 
