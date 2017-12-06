@@ -8,7 +8,7 @@
     <string name="title_activity_palette_gallery_screen">Palette Gallery Screen</string>
     <string name="title_activity_mood_board_gallery_screen">Mood Board Gallery Screen</string>
     <string name="title_activity_main">Main Activity</string>
-    <string name="title_activity_select_photo">Select Photo</string>
+    <string name="title_activity_select_palette">Select Palette</string>
     <string name="title_activity_mood_preview">Mood Preview</string>
     <string name="title_activity_create_palette">Create Palette</string>
     <string name="title_activity_set_palette_info">Set Palette Info</string>

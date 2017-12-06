@@ -1,16 +1,24 @@
 package edu.uw.wuyiz.chromatic;
 
+import android.*;
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +27,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import android.Manifest;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.R.attr.data;
 
 public class CreateMoodBoardActivity extends AppCompatActivity {
 
@@ -37,16 +52,13 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_mood_board);
-
-        checkedList = new ArrayList<>();
-
-        Intent intent = getIntent();
-        checkedList = intent.getStringArrayListExtra("checkedList");
-
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Intent intent = getIntent();
+        checkedList = intent.getStringArrayListExtra("checkedList");
 
         // initialize the drawingView and createdMoodBoardBitmap
         drawingView = findViewById(R.id.drawing_view);
@@ -239,9 +251,9 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         });
 
         // initialize the drawingView
-        init();
+        init(checkedList);
 
-        Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -254,14 +266,77 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void init() {
-        for (int i = 0; i < 3; i++) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
-            moodBoardComponentBitmap.setId(i);
-            moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
-            moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
-            drawingView.addBitmap(moodBoardComponentBitmap);
+    private void checkDiskPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        } else {
+            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void init(List<String> checkedList) {
+//        for (int i = 0; i < 3; i++) {
+//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//            MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
+//            moodBoardComponentBitmap.setId(i);
+//            moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
+//            moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
+//            drawingView.addBitmap(moodBoardComponentBitmap);
+//        }
+
+        for (int i = 0; i < checkedList.size(); i++) {
+
+            checkDiskPermission();
+            Bitmap bitmap = imageUriStringToBitmap(checkedList.get(i));
+
+            if (bitmap != null) {
+                MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
+                moodBoardComponentBitmap.setId(i);
+                moodBoardComponentBitmap.widthAfterScale = (bitmap.getWidth() / 4);
+                moodBoardComponentBitmap.heightAfterScale = (bitmap.getHeight() / 4);
+                drawingView.addBitmap(moodBoardComponentBitmap);
+            }
+        }
+    }
+
+    private Bitmap imageUriStringToBitmap(String imageUriStr) {
+        try {
+            checkDiskPermission();
+            Uri imageUri = Uri.parse(imageUriStr);
+//            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//            final int takeFlags = intent.getFlags()
+//                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//            getContentResolver().takePersistableUriPermission(imageUri, takeFlags);
+            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+            final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+
+            return bitmap;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    private Bitmap stringToBitmap(String encodedString) {
+        try {
+            byte[] encodedByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0, encodedByte.length);
+
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
         }
     }
 

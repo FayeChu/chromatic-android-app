@@ -1,6 +1,9 @@
 package edu.uw.wuyiz.chromatic;
 
+
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,18 +16,23 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created by Su Wang on 2017/11/28.
  */
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PICK_IMAGE = 0;
     private static final int REQUEST_TAKE_PHOTO = 1;
@@ -37,7 +45,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_get_photo);
 
         //import a photo from album
-        Button btn_import_photo = (Button)findViewById(R.id.button_import_photo);
+        Button btn_import_photo = (Button) findViewById(R.id.button_import_photo);
         btn_import_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,17 +54,26 @@ public class MainActivity extends AppCompatActivity{
         });
 
         //view gallery
-        Button btn_view_gallery = (Button)findViewById(R.id.button_view_gallery);
-        btn_view_gallery.setOnClickListener(new View.OnClickListener(){
+        Button btn_view_gallery = (Button) findViewById(R.id.button_view_gallery);
+        btn_view_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
+//                Timer timer = new Timer();
+//                timer.schedule(new TimerTask() {
+//                    public void run() {
+//                        InputMethodManager inputMethodManager =
+//                                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                    }
+//                }, 200);
+
                 Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
                 startActivity(galleryIntent);
             }
         });
 
         //take a photo
-        Button take_photo = (Button)findViewById(R.id.button_take_photo);
+        Button take_photo = (Button) findViewById(R.id.button_take_photo);
         take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,19 +92,27 @@ public class MainActivity extends AppCompatActivity{
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 //intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 startActivityForResult(intent,REQUEST_TAKE_PHOTO);
+//=======
+//                File photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT,
+//                        Uri.fromFile(photo));
+//                imageUri = Uri.fromFile(photo);
+//                startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+//>>>>>>> dc6b1a8d1e2545aa82a769003b0e4d4f2a74d49f
             }
         });
     }
 
     private void pickImageFromAlbum() {
         Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK) {
                 galleryAddPic();

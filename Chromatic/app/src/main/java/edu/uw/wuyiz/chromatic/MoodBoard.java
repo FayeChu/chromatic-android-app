@@ -8,7 +8,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
  * Created by wuyiz on 11/28/17.
  */
 
-//@IgnoreExtraProperties
+@IgnoreExtraProperties
 public class MoodBoard {
 
     public String moodBoardId;
@@ -17,26 +17,28 @@ public class MoodBoard {
     public String moodBoardDate;
     public String moodBoradNotes;
     public String moodBoradDescription;
+    public String moodBoardBitmapStr;
 
-    public Bitmap moodBoardBitmap;
+//    public Bitmap moodBoardBitmap;
 
     public MoodBoard() {
     }
 
-    public MoodBoard (String moodBoardId,
-                      String moodBoardName,
-                      String moodBoardAuthor,
-                      String moodBoardDate,
-                      String moodBoradNotes,
-                      String moodBoradDescription,
-                      Bitmap moodBoardBitmap) {
+    public MoodBoard(String moodBoardId,
+                     String moodBoardName,
+                     String moodBoardAuthor,
+                     String moodBoardDate,
+                     String moodBoradNotes,
+                     String moodBoradDescription,
+                     String moodBoardBitmapStr) {
         this.moodBoardId = moodBoardId;
         this.moodBoardName = moodBoardName;
         this.moodBoardAuthor = moodBoardAuthor;
         this.moodBoardDate = moodBoardDate;
         this.moodBoradNotes = moodBoradNotes;
         this.moodBoradDescription = moodBoradDescription;
-        this.moodBoardBitmap = moodBoardBitmap;
+        this.moodBoardBitmapStr = moodBoardBitmapStr;
+//        this.moodBoardBitmap = moodBoardBitmap;
     }
 
     public String getMoodBoardId() {
@@ -87,11 +89,11 @@ public class MoodBoard {
         this.moodBoradDescription = moodBoradDescription;
     }
 
-    public Bitmap getMoodBoardBitmap() {
-        return moodBoardBitmap;
+    public String getMoodBoardBitmapStr() {
+        return moodBoardBitmapStr;
     }
 
-    public void setMoodBoardBitmap(Bitmap moodBoardBitmap) {
-        this.moodBoardBitmap = moodBoardBitmap;
+    public void setMoodBoardBitmap(String moodBoardBitmapStr) {
+        this.moodBoardBitmapStr = moodBoardBitmapStr;
     }
 }
