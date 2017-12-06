@@ -12,17 +12,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lwj.widget.picturebrowser.PictureBrowser;
+import com.lwj.widget.picturebrowser.PictureFragment;
+import com.lwj.widget.picturebrowser.PictureLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,37 +165,37 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
-//        MoodBoardGalleryScreenActivity.SpacesItemDecoration decoration = new MoodBoardGalleryScreenActivity.SpacesItemDecoration(8);
-//        recyclerView.addItemDecoration(decoration);
-//        final PictureLoader pictureLoader = new PictureLoader() {
-//            @Override
-//            public void showPicture(PictureFragment fragment, PhotoView photoView, String pictureUrl) {
-//
-//                Glide.with(fragment)
-//                        .load(pictureUrl)
-//                        .into(photoView);
-//            }
-//        };
-//        adapter.setOnItemClickListener(new PaletteGalleryScreenActivity.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//
-//                ArrayList<String> data = adapter.getData();
-//
-//                Log.e("onItemClick","onItemClick"+position+data.size());
-//
-//                PictureBrowser.Builder builder = new PictureBrowser.Builder();
-//                builder.setFragmentManager(getSupportFragmentManager())
-//                        .setUrlList(data)
-//                        .setStartIndex(position)
-//                        .initPictureLoader(pictureLoader)
-//                        .setShowDeleteIcon(true)
-//                        .setShowIndexHint(true)
-//                        .setCancelOutside(true)
-//                        .create()
-//                        .show();
-//            }
-//        });
+        MoodBoardSpacesItemDecoration decoration = new MoodBoardSpacesItemDecoration(8);
+        recyclerView.addItemDecoration(decoration);
+        final PictureLoader pictureLoader = new PictureLoader() {
+            @Override
+            public void showPicture(PictureFragment fragment, PhotoView photoView, String pictureUrl) {
+
+                Glide.with(fragment)
+                        .load(pictureUrl)
+                        .into(photoView);
+            }
+        };
+        adapter.setOnItemClickListener(new PaletteGalleryScreenActivity.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                List<String> data = adapter.getData();
+
+                Log.e("onItemClick","onItemClick"+position+data.size());
+
+                PictureBrowser.Builder builder = new PictureBrowser.Builder();
+                builder.setFragmentManager(getSupportFragmentManager())
+                        .setUrlList((ArrayList<String>) data)
+                        .setStartIndex(position)
+                        .initPictureLoader(pictureLoader)
+                        .setShowDeleteIcon(true)
+                        .setShowIndexHint(true)
+                        .setCancelOutside(true)
+                        .create()
+                        .show();
+            }
+        });
 
         recyclerView.setAdapter(adapter);
     }
