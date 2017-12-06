@@ -1,14 +1,24 @@
 package edu.uw.wuyiz.chromatic;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Su Wang on 2017/11/28.
@@ -50,7 +60,19 @@ public class MainActivity extends AppCompatActivity{
         take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+                }
+                try {
+                    File outputImage = createImageFile();
+                    outputImage.createNewFile();
+                    imageUri = FileProvider.getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID + ".provider", outputImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 //intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 startActivityForResult(intent,REQUEST_TAKE_PHOTO);
             }
@@ -66,15 +88,49 @@ public class MainActivity extends AppCompatActivity{
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_IMAGE || requestCode == REQUEST_TAKE_PHOTO){
+        if (requestCode == REQUEST_TAKE_PHOTO){
             if (resultCode == RESULT_OK) {
-                //onImagePicked(data.getData());
+                galleryAddPic();
+                Intent intent = new Intent(this, MoodPreviewActivity.class);
+                intent.putExtra("uri", imageUri.toString());
+                startActivity(intent);
+            }
+
+        } else if (requestCode == REQUEST_CODE_PICK_IMAGE){
+            if (resultCode == RESULT_OK){
                 Intent intent = new Intent(this, MoodPreviewActivity.class);
                 intent.putExtra("uri", data.getData().toString());
                 startActivity(intent);
             }
-        } else {
+        }else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private  File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp;//创建以时间命名的文件名称
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);//创建保存的路径
+
+        File image = new File(storageDir.getPath(), imageFileName + ".jpg");
+        if (!image.exists()) {
+            try {
+                //在指定的文件夹中创建文件
+                image.createNewFile();
+            } catch (Exception e) {
+            }
+        }
+
+        return image;
+    }
+
+    private void galleryAddPic()
+    {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File("file://"+ Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
+        Uri contentUri = Uri.fromFile(f);
+        Log.v("MainActivity", contentUri.getPath());
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 }
