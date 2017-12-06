@@ -56,17 +56,18 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.action_moodboards:
-                                Intent moodBoardsIntent = new Intent(getApplicationContext(), CreateMoodBoardActivity.class);
-                                startActivity(moodBoardsIntent);
-                            case R.id.action_gallery:
+                            case R.id.action_new_mood_board:
+                                Intent selectPhotoIntent = new Intent(getApplicationContext(), SelectPhotoActivity.class);
+                                startActivity(selectPhotoIntent);
+//                                return true;
+                            case R.id.action_palette_gallery:
                                 Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
                                 startActivity(galleryIntent);
-                            case R.id.action_creations:
+//                                return true;
+                            case R.id.action_mood_board_gallery:
 //                                Intent creationsIntent = new Intent(getApplicationContext(), MoodBoardGalleryScreenActivity.class);
 //                                startActivity(creationsIntent);
                                 return true;
-
                         }
                         return true;
                     }

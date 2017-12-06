@@ -1,8 +1,11 @@
 package edu.uw.wuyiz.chromatic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.MenuItem;
@@ -30,7 +33,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_mood_board_info);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -98,7 +101,7 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                             moodBoardDate,
                             moodBoardNotes,
                             moodBoardDescription,
-                            bitmapToString(CreateMoodBoardActivity.createdMoodBoardBitmap));
+                            getImageUri(SetMoodBoardInfoActivity.this, CreateMoodBoardActivity.createdMoodBoardBitmap).toString());
 
                     databaseReference.child(databaseReference.push().getKey()).setValue(moodBoard);
 
@@ -134,5 +137,12 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
         byte [] b = baos.toByteArray();
         String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
         return bitmapString;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }

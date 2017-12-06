@@ -1,8 +1,10 @@
 package edu.uw.wuyiz.chromatic;
 
+import android.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +13,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -29,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.R.attr.data;
 
 public class CreateMoodBoardActivity extends AppCompatActivity {
 
@@ -260,6 +265,19 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
+    private void checkDiskPermission ()
+    {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "No Permissions" , Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.MANAGE_DOCUMENTS, android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        else
+        {
+            Toast.makeText(this, "Has Permissions" , Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void init(List<String> checkedList) {
 //        for (int i = 0; i < 3; i++) {
 //            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
@@ -269,6 +287,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 //            moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
 //            drawingView.addBitmap(moodBoardComponentBitmap);
 //        }
+
         for (int i = 0; i < checkedList.size(); i++) {
 
 //            Toast.makeText(CreateMoodBoardActivity.this,
@@ -286,6 +305,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
+            checkDiskPermission();
             Bitmap bitmap = imageUriStringToBitmap(checkedList.get(i));
             MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
             moodBoardComponentBitmap.setId(i);
@@ -297,9 +317,12 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
     private Bitmap imageUriStringToBitmap(String imageUriStr) {
         try {
+            checkDiskPermission();
             Uri imageUri = Uri.parse(imageUriStr);
-            InputStream imageStream = getContentResolver().openInputStream(imageUri);
-            Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+//            CreateMoodBoardActivity.grantUriPermission(mActivity.getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+            final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
             return bitmap;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

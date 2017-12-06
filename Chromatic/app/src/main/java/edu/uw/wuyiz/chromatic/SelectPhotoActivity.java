@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import android.Manifest;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,14 +42,10 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PICK_IMAGE = 1;
 
-    private MyRecyclerAdapter2 adapter;
-
+    private SelectPhotoRecyclerAdapter adapter;
     private ArrayList<String> mUrlList;
     private ArrayList<String> checkedList;
-
-    private List<Palette> mPalettes;
     private DatabaseReference mDatabase;
-
     private Boolean isChecked = false;
 
     @Override
@@ -57,37 +55,6 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
-
-        mUrlList = new ArrayList<>();
-        checkedList = new ArrayList<>();
-        mPalettes = new ArrayList<>();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                mPalettes.clear();
-//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                    MoodBoard mb = (HashMap) postSnapshot.getValue();
-//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
-
-
-                    Palette palette = postSnapshot.getValue(Palette.class);
-//                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
-                    mPalettes.add(palette);
-                    mUrlList.add(palette.imageUri);
-                }
-
-//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
 
 //        if (savedInstanceState == null) {
 //            mUrlList = new ArrayList<>();
@@ -106,9 +73,38 @@ public class SelectPhotoActivity extends AppCompatActivity {
 //            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
 //        }
 
+        final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
+
+        mUrlList = new ArrayList<>();
+        checkedList = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+//                mUrlList.clear();
+//                checkedList.clear();
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                    MoodBoard mb = (HashMap) postSnapshot.getValue();
+//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
+
+                    Palette palette = postSnapshot.getValue(Palette.class);
+//                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
+                    mUrlList.add(palette.imageUri);
+                }
+
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        adapter = new MyRecyclerAdapter2(mUrlList);
+        adapter = new SelectPhotoRecyclerAdapter(mUrlList);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
@@ -202,11 +198,11 @@ public class SelectPhotoActivity extends AppCompatActivity {
 //        startActivityForResult(chooserIntent, REQUEST_CODE_PICK_IMAGE);
 //    }
 
-    class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+    class SelectPhotoSpacesItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;
 
-        public SpacesItemDecoration(int space) {
+        public SelectPhotoSpacesItemDecoration(int space) {
             this.space = space;
         }
 
@@ -221,25 +217,21 @@ public class SelectPhotoActivity extends AppCompatActivity {
         }
     }
 
-    private void checkDiskPermission ()
-    {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDER) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "No Permissions" , Toast.LENGTH_LONG).show();
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-        }
-        else
-        {
-            Toast.makeText(this, "Has Permissions" , Toast.LENGTH_LONG).show();
+    private void checkPermission () {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS, Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        } else {
+            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
         }
     }
 
-    class MyRecyclerAdapter2 extends RecyclerView.Adapter<SelectPhotoActivity.MyViewHolder> implements View.OnClickListener {
+    class SelectPhotoRecyclerAdapter extends RecyclerView.Adapter<SelectPhotoActivity.MyViewHolder> implements View.OnClickListener {
 
         private List<String> mUrlList;
 
-        public MyRecyclerAdapter2(List<String> urlList) {
+        public SelectPhotoRecyclerAdapter(List<String> urlList) {
             mUrlList = urlList;
         }
 
@@ -256,12 +248,11 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final SelectPhotoActivity.MyViewHolder holder, final int position) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS}, 1);
+            checkPermission();
 
             Glide.with(SelectPhotoActivity.this)
                     .load(Uri.parse(mUrlList.get(position)))
                     .into(holder.mTvPicture);
-            //将position保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
 
             holder.mTvPicture.setOnClickListener(new View.OnClickListener() {
@@ -286,15 +277,14 @@ public class SelectPhotoActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return mUrlList.size();
-//            return 2;
         }
-        private SelectPhotoActivity.OnItemClickListener mOnItemClickListener = null;
 
+        private SelectPhotoActivity.OnItemClickListener mOnItemClickListener = null;
 
         @Override
         public void onClick(View v) {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(v,(int)v.getTag());
+                mOnItemClickListener.onItemClick(v, (int)v.getTag());
             }
         }
 
@@ -303,12 +293,12 @@ public class SelectPhotoActivity extends AppCompatActivity {
         }
     }
 
-    //define interface
-    public  interface OnItemClickListener {
-        void onItemClick(View view , int position);
+    // define interface
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
-    class MyViewHolder extends RecyclerView.ViewHolder {
 
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView mTvPicture;
         public final ImageView mIcon;
@@ -319,5 +309,4 @@ public class SelectPhotoActivity extends AppCompatActivity {
             mIcon = (ImageView) itemView.findViewById(R.id.photo_check);
         }
     }
-
 }
