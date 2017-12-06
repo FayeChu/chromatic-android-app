@@ -1,6 +1,7 @@
 package edu.uw.wuyiz.chromatic;
 
 import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,22 +43,19 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
     // store created mood board for this activity
     public static Bitmap createdMoodBoardBitmap;
 
-//    private List<String> checkedList;
+    private List<String> checkedList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_mood_board);
-
-//        checkedList = new ArrayList<>();
-
-        Intent intent = getIntent();
-        List<String> checkedList = intent.getStringArrayListExtra("checkedList");
-
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Intent intent = getIntent();
+        checkedList = intent.getStringArrayListExtra("checkedList");
 
         // initialize the drawingView and createdMoodBoardBitmap
         drawingView = findViewById(R.id.drawing_view);
@@ -252,7 +250,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         // initialize the drawingView
         init(checkedList);
 
-        Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -265,16 +263,16 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void checkDiskPermission ()
-    {
+    private void checkDiskPermission() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "No Permissions" , Toast.LENGTH_LONG).show();
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.MANAGE_DOCUMENTS, android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
-        else
-        {
-            Toast.makeText(this, "Has Permissions" , Toast.LENGTH_LONG).show();
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        } else {
+            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -290,28 +288,16 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
         for (int i = 0; i < checkedList.size(); i++) {
 
-//            Toast.makeText(CreateMoodBoardActivity.this,
-//                    checkedList.size(),
-//                    Toast.LENGTH_SHORT).show();
-
-//            Uri imageUri = Uri.parse(checkedList.get(i));
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-//                MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
-//                moodBoardComponentBitmap.setId(i);
-//                moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
-//                moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
-//                drawingView.addBitmap(moodBoardComponentBitmap);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             checkDiskPermission();
             Bitmap bitmap = imageUriStringToBitmap(checkedList.get(i));
-            MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
-            moodBoardComponentBitmap.setId(i);
-            moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
-            moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
-            drawingView.addBitmap(moodBoardComponentBitmap);
+
+            if (bitmap != null) {
+                MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
+                moodBoardComponentBitmap.setId(i);
+                moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
+                moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
+                drawingView.addBitmap(moodBoardComponentBitmap);
+            }
         }
     }
 
@@ -323,6 +309,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
             final InputStream imageStream = getContentResolver().openInputStream(imageUri);
             final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+
             return bitmap;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

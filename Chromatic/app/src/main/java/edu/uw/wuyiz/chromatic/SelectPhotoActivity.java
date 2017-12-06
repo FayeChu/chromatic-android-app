@@ -127,9 +127,9 @@ public class SelectPhotoActivity extends AppCompatActivity {
                 return true;
             case R.id.action_select_done:
                 //send image to create mood boards activity
-                Intent imageIntent = new Intent(this, CreateMoodBoardActivity.class);
-                imageIntent.putExtra("checkedList", checkedList);
-                startActivity(imageIntent);
+                Intent intent = new Intent(SelectPhotoActivity.this, CreateMoodBoardActivity.class);
+                intent.putExtra("checkedList", checkedList);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -217,11 +217,14 @@ public class SelectPhotoActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermission () {
+    private void checkPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS, Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         } else {
             Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
         }
