@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< Updated upstream
     <external-path name="my_images" path="Android/data/edu.uw.wuyiz.chromatic/files/Pictures"/>
+=======
+    <external-path name="external_files" path="."/>
+>>>>>>> Stashed changes
 </paths>
