@@ -1,11 +1,16 @@
 package edu.uw.wuyiz.chromatic;
 
 import android.*;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -33,6 +38,7 @@ import com.lwj.widget.picturebrowser.PictureBrowser;
 import com.lwj.widget.picturebrowser.PictureFragment;
 import com.lwj.widget.picturebrowser.PictureLoader;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +50,16 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
     private PaletteGalleryRecyclerAdapter adapter;
     private ArrayList<String> mUrlList;
+    private ArrayList<String> mColorOne;
+    private ArrayList<String> mColorTwo;
+    private ArrayList<String> mColorThree;
+    private ArrayList<String> mColorFour;
+    private ArrayList<String> mColorFive;
     private List<Palette> mPalettes;
     private DatabaseReference mDatabase;
+
+    private int width;
+    private int height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +110,16 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
         final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 
+        width = 150;
+        height = 150;
+
         mUrlList = new ArrayList<>();
+        mColorOne = new ArrayList<>();
+        mColorTwo = new ArrayList<>();
+        mColorThree = new ArrayList<>();
+        mColorFour = new ArrayList<>();
+        mColorFive = new ArrayList<>();
+
         mPalettes = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
@@ -105,6 +128,11 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 mUrlList.clear();
+                mColorOne.clear();
+                mColorTwo.clear();
+                mColorThree.clear();
+                mColorFour.clear();
+                mColorFive.clear();
                 mPalettes.clear();
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
@@ -116,6 +144,26 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 //                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
                     mPalettes.add(palette);
                     mUrlList.add(palette.imageUri);
+
+                    checkPermission();
+                    Bitmap colorOne = createBitmap(width, height, palette.colorOne);
+                    Bitmap colorTwo = createBitmap(width, height, palette.colorTwo);
+                    Bitmap colorThree = createBitmap(width, height, palette.colorThree);
+                    Bitmap colorFour = createBitmap(width, height, palette.colorFour);
+                    Bitmap colorFive = createBitmap(width, height, palette.colorFive);
+
+                    Uri colorOneUri = getImageUri(getApplicationContext(), colorOne);
+                    Uri colorTwoUri = getImageUri(getApplicationContext(), colorTwo);
+                    Uri colorThreeUri = getImageUri(getApplicationContext(), colorThree);
+                    Uri colorFourUri = getImageUri(getApplicationContext(), colorFour);
+                    Uri colorFiveUri = getImageUri(getApplicationContext(), colorFive);
+
+
+                    mColorOne.add(colorOneUri.toString());
+                    mColorTwo.add(colorTwoUri.toString());
+                    mColorThree.add(colorThreeUri.toString());
+                    mColorFour.add(colorFourUri.toString());
+                    mColorFive.add(colorFiveUri.toString());
                 }
 
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
@@ -128,7 +176,7 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        adapter = new PaletteGalleryRecyclerAdapter(mUrlList);
+        adapter = new PaletteGalleryRecyclerAdapter(mUrlList, mColorOne, mColorTwo, mColorThree, mColorFour, mColorFive);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
@@ -166,6 +214,32 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 //        });
 
         recyclerView.setAdapter(adapter);
+    }
+
+    private Bitmap createBitmap(int w, int h, int color) {
+
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+        Bitmap bmp = Bitmap.createBitmap(w, h, conf); // this creates a MUTABLE bitmap
+        Canvas canvas = new Canvas(bmp);
+
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        Paint rect_paint = new Paint();
+        rect_paint.setStyle(Paint.Style.FILL);
+        rect_paint.setColor(Color.rgb(r, g, b));
+        canvas.drawRect(0, 0, w, h, rect_paint);
+
+        return bmp;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        checkPermission();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     @Override
@@ -272,9 +346,20 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
     class PaletteGalleryRecyclerAdapter extends RecyclerView.Adapter<PaletteGalleryScreenActivity.MyViewHolder> implements View.OnClickListener {
 
         private List<String> mUrlList;
+        private List<String> mColorOne;
+        private List<String> mColorTwo;
+        private List<String> mColorThree;
+        private List<String> mColorFour;
+        private List<String> mColorFive;
 
-        public PaletteGalleryRecyclerAdapter(List<String> urlList) {
+        public PaletteGalleryRecyclerAdapter(List<String> urlList, List<String> colorOne, List<String> colorTwo,
+                                             List<String> colorThree, List<String> colorFour, List<String> colorFive) {
             mUrlList = urlList;
+            mColorOne = colorOne;
+            mColorTwo = colorTwo;
+            mColorThree = colorThree;
+            mColorFour = colorFour;
+            mColorFive = colorFive;
         }
 
         public List<String> getData() {
@@ -296,6 +381,26 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
                     .load(Uri.parse(mUrlList.get(position)))
                     .into(holder.mTvPicture);
             holder.itemView.setTag(position);
+
+            Glide.with(PaletteGalleryScreenActivity.this)
+                    .load(Uri.parse(mColorOne.get(position)))
+                    .into(holder.mColorOne);
+
+            Glide.with(PaletteGalleryScreenActivity.this)
+                    .load(Uri.parse(mColorTwo.get(position)))
+                    .into(holder.mColorTwo);
+
+            Glide.with(PaletteGalleryScreenActivity.this)
+                    .load(Uri.parse(mColorThree.get(position)))
+                    .into(holder.mColorThree);
+
+            Glide.with(PaletteGalleryScreenActivity.this)
+                    .load(Uri.parse(mColorFour.get(position)))
+                    .into(holder.mColorFour);
+
+            Glide.with(PaletteGalleryScreenActivity.this)
+                    .load(Uri.parse(mColorFive.get(position)))
+                    .into(holder.mColorFive);
         }
 
         @Override
@@ -325,10 +430,20 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView mTvPicture;
+        public final ImageView mColorOne;
+        public final ImageView mColorTwo;
+        public final ImageView mColorThree;
+        public final ImageView mColorFour;
+        public final ImageView mColorFive;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mTvPicture = (ImageView) itemView.findViewById(R.id.iv_picture_item);
+            mColorOne = (ImageView) itemView.findViewById(R.id.palette_color_one);
+            mColorTwo = (ImageView) itemView.findViewById(R.id.palette_color_two);
+            mColorThree = (ImageView) itemView.findViewById(R.id.palette_color_three);
+            mColorFour = (ImageView) itemView.findViewById(R.id.palette_color_four);
+            mColorFive = (ImageView) itemView.findViewById(R.id.palette_color_five);
         }
     }
 }

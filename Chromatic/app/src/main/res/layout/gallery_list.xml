@@ -11,13 +11,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_picture_item"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            />
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/iv_picture_item"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,27 +33,31 @@
             <ImageView
                 android:id="@+id/palette_color_one"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
+
 
             <ImageView
                 android:id="@+id/palette_color_two"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
+
 
             <ImageView
                 android:id="@+id/palette_color_three"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
+
 
             <ImageView
                 android:id="@+id/palette_color_four"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
+
 
             <ImageView
                 android:id="@+id/palette_color_five"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
