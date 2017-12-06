@@ -82,8 +82,8 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 
-        width = 200;
-        height = 200;
+        width = 190;
+        height = 190;
 
         mUrlList = new ArrayList<>();
         mColorOne = new ArrayList<>();
