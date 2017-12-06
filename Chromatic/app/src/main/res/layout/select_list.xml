@@ -4,29 +4,138 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/select_photo"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="180dp"
     app:cardCornerRadius="5dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_picture_item"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            />
+            android:layout_height="150dp">
 
-        <ImageView
-            android:id="@+id/photo_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:contentDescription="@null"
-            android:src="@mipmap/imageselector_select_uncheck" />
+            <ImageView
+                android:id="@+id/iv_picture_item"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true" />
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/photo_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:contentDescription="@null"
+                android:src="@mipmap/imageselector_select_uncheck" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/palette_color_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/photo_check_one"
+                    android:layout_width="@dimen/check_width"
+                    android:layout_height="@dimen/check_height"
+                    android:layout_gravity="top|right"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/imageselector_select_uncheck" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/palette_color_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/photo_check_two"
+                    android:layout_width="@dimen/check_width"
+                    android:layout_height="@dimen/check_height"
+                    android:layout_gravity="top|right"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/imageselector_select_uncheck" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/palette_color_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/photo_check_three"
+                    android:layout_width="@dimen/check_width"
+                    android:layout_height="@dimen/check_height"
+                    android:layout_gravity="top|right"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/imageselector_select_uncheck" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/palette_color_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/photo_check_four"
+                    android:layout_width="@dimen/check_width"
+                    android:layout_height="@dimen/check_height"
+                    android:layout_gravity="top|right"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/imageselector_select_uncheck" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/palette_color_five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/photo_check_five"
+                    android:layout_width="@dimen/check_width"
+                    android:layout_height="@dimen/check_height"
+                    android:layout_gravity="top|right"
+                    android:contentDescription="@null"
+                    android:src="@mipmap/imageselector_select_uncheck" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

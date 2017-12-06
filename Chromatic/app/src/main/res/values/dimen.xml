@@ -7,4 +7,7 @@
     <dimen name="margin">5dp</dimen>
     <dimen name="set_info_text_size">16sp</dimen>
     <dimen name="txt_set">18sp</dimen>
+    <dimen name="check_width">15dp</dimen>
+    <dimen name="check_height">15dp</dimen>
+
 </resources>

@@ -80,8 +80,9 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
                     }
                 });
 
-//        if (savedInstanceState == null) {
-//            mUrlList = new ArrayList<>();
+        if (savedInstanceState == null) {
+            final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
+            mUrlList = new ArrayList<>();
 //
 //            mUrlList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510081122985&di=8bfc65adda0e868cb7700eadf8dcac71&imgtype=0&src=http%3A%2F%2Fpic.zhutou.com%2Fhtml%2FUploadPic%2F2010-6%2F2010664458474.jpg");
 //            mUrlList.add("http://img1.imgtn.bdimg.com/it/u=963551012,3660149984&fm=214&gp=0.jpg");
@@ -93,9 +94,37 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 //            if (uri != null) {
 //                mUrlList.add(uri);
 //            }
-//        } else {
-//            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
-//        }
+
+            mPalettes = new ArrayList<>();
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
+
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    mPalettes.clear();
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                    MoodBoard mb = (HashMap) postSnapshot.getValue();
+//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
+
+
+                        Palette palette = postSnapshot.getValue(Palette.class);
+//                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
+                        mPalettes.add(palette);
+                        mUrlList.add(palette.imageUri);
+                    }
+
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+        } else {
+            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
+        }
 
         final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 

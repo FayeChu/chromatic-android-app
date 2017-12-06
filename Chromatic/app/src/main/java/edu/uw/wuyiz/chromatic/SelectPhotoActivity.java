@@ -1,11 +1,17 @@
 package edu.uw.wuyiz.chromatic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.lwj.widget.picturebrowser.PictureBrowser;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +51,17 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
     private SelectPhotoRecyclerAdapter adapter;
     private ArrayList<String> mUrlList;
+    private ArrayList<String> mColorOne;
+    private ArrayList<String> mColorTwo;
+    private ArrayList<String> mColorThree;
+    private ArrayList<String> mColorFour;
+    private ArrayList<String> mColorFive;
+
     private ArrayList<String> checkedList;
     private DatabaseReference mDatabase;
     private Boolean isChecked = false;
+    private int width;
+    private int height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +90,16 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 
+        width = 150;
+        height = 150;
+
         mUrlList = new ArrayList<>();
+        mColorOne = new ArrayList<>();
+        mColorTwo = new ArrayList<>();
+        mColorThree = new ArrayList<>();
+        mColorFour = new ArrayList<>();
+        mColorFive = new ArrayList<>();
+
         checkedList = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
 
@@ -92,6 +116,27 @@ public class SelectPhotoActivity extends AppCompatActivity {
                     Palette palette = postSnapshot.getValue(Palette.class);
 //                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
                     mUrlList.add(palette.imageUri);
+//                    mColorOne.add(String.format("#%06X", (0xFFFFFF & palette.colorOne)));
+
+                    checkPermission();
+                    Bitmap colorOne = createBitmap(width, height, palette.colorOne);
+                    Bitmap colorTwo = createBitmap(width, height, palette.colorTwo);
+                    Bitmap colorThree = createBitmap(width, height, palette.colorThree);
+                    Bitmap colorFour = createBitmap(width, height, palette.colorFour);
+                    Bitmap colorFive = createBitmap(width, height, palette.colorFive);
+
+                    Uri colorOneUri = getImageUri(getApplicationContext(), colorOne);
+                    Uri colorTwoUri = getImageUri(getApplicationContext(), colorTwo);
+                    Uri colorThreeUri = getImageUri(getApplicationContext(), colorThree);
+                    Uri colorFourUri = getImageUri(getApplicationContext(), colorFour);
+                    Uri colorFiveUri = getImageUri(getApplicationContext(), colorFive);
+
+
+                    mColorOne.add(colorOneUri.toString());
+                    mColorTwo.add(colorTwoUri.toString());
+                    mColorThree.add(colorThreeUri.toString());
+                    mColorFour.add(colorFourUri.toString());
+                    mColorFive.add(colorFiveUri.toString());
                 }
 
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
@@ -104,13 +149,39 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        adapter = new SelectPhotoRecyclerAdapter(mUrlList);
+        adapter = new SelectPhotoRecyclerAdapter(mUrlList, mColorOne, mColorTwo, mColorThree, mColorFour, mColorFive);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setAdapter(adapter);
 
         //Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
+    }
+
+    private Bitmap createBitmap(int w, int h, int color) {
+
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+        Bitmap bmp = Bitmap.createBitmap(w, h, conf); // this creates a MUTABLE bitmap
+        Canvas canvas = new Canvas(bmp);
+
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        Paint rect_paint = new Paint();
+        rect_paint.setStyle(Paint.Style.FILL);
+        rect_paint.setColor(Color.rgb(r, g, b));
+        canvas.drawRect(0, 0, w, h, rect_paint);
+
+        return bmp;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        checkPermission();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     @Override
@@ -233,9 +304,23 @@ public class SelectPhotoActivity extends AppCompatActivity {
     class SelectPhotoRecyclerAdapter extends RecyclerView.Adapter<SelectPhotoActivity.MyViewHolder> implements View.OnClickListener {
 
         private List<String> mUrlList;
+        private List<String> mColorOne;
+        private List<String> mColorTwo;
+        private List<String> mColorThree;
+        private List<String> mColorFour;
+        private List<String> mColorFive;
 
-        public SelectPhotoRecyclerAdapter(List<String> urlList) {
+
+
+
+        public SelectPhotoRecyclerAdapter(List<String> urlList, List<String> colorOne, List<String> colorTwo,
+                                  List<String> colorThree, List<String> colorFour, List<String> colorFive) {
             mUrlList = urlList;
+            mColorOne = colorOne;
+            mColorTwo = colorTwo;
+            mColorThree = colorThree;
+            mColorFour = colorFour;
+            mColorFive = colorFive;
         }
 
         public List<String> getData() {
@@ -256,6 +341,7 @@ public class SelectPhotoActivity extends AppCompatActivity {
             Glide.with(SelectPhotoActivity.this)
                     .load(Uri.parse(mUrlList.get(position)))
                     .into(holder.mTvPicture);
+
             holder.itemView.setTag(position);
 
             holder.mTvPicture.setOnClickListener(new View.OnClickListener() {
@@ -274,8 +360,118 @@ public class SelectPhotoActivity extends AppCompatActivity {
                 }
             });
 
+            Glide.with(SelectPhotoActivity.this)
+                    .load(Uri.parse(mColorOne.get(position)))
+                    .into(holder.mColorOne);
+
+            holder.itemView.setTag(position);
+
+            holder.mColorOne.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isChecked) {
+                        checkedList.add(mColorOne.get(position));
+                        holder.mIconOne.setImageResource(R.mipmap.imageselector_select_checked);
+                        isChecked = true;
+                    } else {
+                        holder.mIconOne.setImageResource(R.mipmap.imageselector_select_uncheck);
+                        isChecked = false;
+                        checkedList.remove(mColorOne.get(position));
+                    }
+
+                }
+            });
+
+            Glide.with(SelectPhotoActivity.this)
+                    .load(Uri.parse(mColorTwo.get(position)))
+                    .into(holder.mColorTwo);
+
+            holder.itemView.setTag(position);
+
+            holder.mColorTwo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isChecked) {
+                        checkedList.add(mColorTwo.get(position));
+                        holder.mIconTwo.setImageResource(R.mipmap.imageselector_select_checked);
+                        isChecked = true;
+                    } else {
+                        holder.mIconTwo.setImageResource(R.mipmap.imageselector_select_uncheck);
+                        isChecked = false;
+                        checkedList.remove(mColorTwo.get(position));
+                    }
+
+                }
+            });
+
+            Glide.with(SelectPhotoActivity.this)
+                    .load(Uri.parse(mColorThree.get(position)))
+                    .into(holder.mColorThree);
+
+            holder.itemView.setTag(position);
+
+            holder.mColorThree.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isChecked) {
+                        checkedList.add(mColorThree.get(position));
+                        holder.mIconThree.setImageResource(R.mipmap.imageselector_select_checked);
+                        isChecked = true;
+                    } else {
+                        holder.mIconThree.setImageResource(R.mipmap.imageselector_select_uncheck);
+                        isChecked = false;
+                        checkedList.remove(mColorThree.get(position));
+                    }
+
+                }
+            });
+
+            Glide.with(SelectPhotoActivity.this)
+                    .load(Uri.parse(mColorFour.get(position)))
+                    .into(holder.mColorFour);
+
+            holder.itemView.setTag(position);
+
+            holder.mColorFour.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isChecked) {
+                        checkedList.add(mColorFour.get(position));
+                        holder.mIconFour.setImageResource(R.mipmap.imageselector_select_checked);
+                        isChecked = true;
+                    } else {
+                        holder.mIconFour.setImageResource(R.mipmap.imageselector_select_uncheck);
+                        isChecked = false;
+                        checkedList.remove(mColorFour.get(position));
+                    }
+
+                }
+            });
+
+            Glide.with(SelectPhotoActivity.this)
+                    .load(Uri.parse(mColorFive.get(position)))
+                    .into(holder.mColorFive);
+
+            holder.itemView.setTag(position);
+
+            holder.mColorFive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isChecked) {
+                        checkedList.add(mColorFive.get(position));
+                        holder.mIconFive.setImageResource(R.mipmap.imageselector_select_checked);
+                        isChecked = true;
+                    } else {
+                        holder.mIconFive.setImageResource(R.mipmap.imageselector_select_uncheck);
+                        isChecked = false;
+                        checkedList.remove(mColorFive.get(position));
+                    }
+
+                }
+            });
 
         }
+
 
         @Override
         public int getItemCount() {
@@ -305,11 +501,34 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         public final ImageView mTvPicture;
         public final ImageView mIcon;
+        public final ImageView mIconOne;
+        public final ImageView mIconTwo;
+        public final ImageView mIconThree;
+        public final ImageView mIconFour;
+        public final ImageView mIconFive;
+
+        public final ImageView mColorOne;
+        public final ImageView mColorTwo;
+        public final ImageView mColorThree;
+        public final ImageView mColorFour;
+        public final ImageView mColorFive;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mTvPicture = (ImageView) itemView.findViewById(R.id.iv_picture_item);
             mIcon = (ImageView) itemView.findViewById(R.id.photo_check);
+            mIconOne = (ImageView) itemView.findViewById(R.id.photo_check_one);
+            mIconTwo = (ImageView) itemView.findViewById(R.id.photo_check_two);
+            mIconThree = (ImageView) itemView.findViewById(R.id.photo_check_three);
+            mIconFour = (ImageView) itemView.findViewById(R.id.photo_check_four);
+            mIconFive = (ImageView) itemView.findViewById(R.id.photo_check_five);
+
+            mColorOne = (ImageView) itemView.findViewById(R.id.palette_color_one);
+            mColorTwo = (ImageView) itemView.findViewById(R.id.palette_color_two);
+            mColorThree = (ImageView) itemView.findViewById(R.id.palette_color_three);
+            mColorFour = (ImageView) itemView.findViewById(R.id.palette_color_four);
+            mColorFive = (ImageView) itemView.findViewById(R.id.palette_color_five);
+
         }
     }
 }
