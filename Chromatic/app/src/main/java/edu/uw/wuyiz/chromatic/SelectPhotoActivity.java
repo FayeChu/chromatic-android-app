@@ -19,11 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lwj.widget.picturebrowser.PictureBrowser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectPhotoActivity extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
     private ArrayList<String> mUrlList;
     private ArrayList<String> checkedList;
-    private ArrayList<Bitmap> BitmapList;
+    private List<Bitmap> BitmapList;
 
     private Boolean isChecked = false;
 
@@ -43,6 +45,8 @@ public class SelectPhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_photo);
+
+        checkedList = new ArrayList<>();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -71,6 +75,8 @@ public class SelectPhotoActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setAdapter(adapter);
+
+        //Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -88,6 +94,7 @@ public class SelectPhotoActivity extends AppCompatActivity {
             case R.id.action_select_done:
                 //send image to create mood boards activity
                 Intent imageIntent = new Intent(this, CreateMoodBoardActivity.class);
+                imageIntent.putExtra("checkedList", checkedList);
                 startActivity(imageIntent);
                 return true;
             default:
@@ -177,13 +184,13 @@ public class SelectPhotoActivity extends AppCompatActivity {
     }
     class MyRecyclerAdapter2 extends RecyclerView.Adapter<SelectPhotoActivity.MyViewHolder> implements View.OnClickListener {
 
-        private ArrayList<String> mUrlList;
+        private List<String> mUrlList;
 
-        public MyRecyclerAdapter2(ArrayList<String> urlList) {
+        public MyRecyclerAdapter2(List<String> urlList) {
             mUrlList = urlList;
         }
-        public ArrayList<String> getData() {
 
+        public List<String> getData() {
             return mUrlList;
         }
 
@@ -206,12 +213,13 @@ public class SelectPhotoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(!isChecked) {
-                        //adapter.
+                        checkedList.add(mUrlList.get(position));
                         holder.mIcon.setImageResource(R.mipmap.imageselector_select_checked);
                         isChecked = true;
                     } else {
                         holder.mIcon.setImageResource(R.mipmap.imageselector_select_uncheck);
                         isChecked = false;
+                        checkedList.remove(mUrlList.get(position));
                     }
 
                 }

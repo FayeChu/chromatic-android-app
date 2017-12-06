@@ -19,6 +19,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,10 +31,17 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
     // store created mood board for this activity
     public static Bitmap createdMoodBoardBitmap;
 
+    private List<String> checkedList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_mood_board);
+
+        checkedList = new ArrayList<>();
+
+        Intent intent = getIntent();
+        checkedList = intent.getStringArrayListExtra("checkedList");
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -231,6 +240,8 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
         // initialize the drawingView
         init();
+
+        Toast.makeText(this, String.valueOf(checkedList.size()) + "a", Toast.LENGTH_SHORT).show();
     }
 
     @Override
