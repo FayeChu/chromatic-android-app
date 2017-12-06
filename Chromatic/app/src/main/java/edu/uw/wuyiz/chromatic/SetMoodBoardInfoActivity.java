@@ -82,13 +82,13 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                                     "Please enter a name for the mood board",
                                     Toast.LENGTH_SHORT).show();
 
-                        } else if (dataSnapshot.child(moodBoardId).exists()) {
-                            Toast.makeText(
-                                    SetMoodBoardInfoActivity.this,
-                                    "Mood Board "
-                                            + moodBoardId
-                                            + " already exists, please enter a new name or author",
-                                    Toast.LENGTH_SHORT).show();
+//                        } else if (dataSnapshot.child(moodBoardId).exists()) {
+//                            Toast.makeText(
+//                                    SetMoodBoardInfoActivity.this,
+//                                    "Mood Board "
+//                                            + moodBoardId
+//                                            + " already exists, please enter a new name or author",
+//                                    Toast.LENGTH_SHORT).show();
 
                         } else {
 
