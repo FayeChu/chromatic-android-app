@@ -297,8 +297,8 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             if (bitmap != null) {
                 MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
                 moodBoardComponentBitmap.setId(i);
-                moodBoardComponentBitmap.widthAfterScale = bitmap.getWidth();
-                moodBoardComponentBitmap.heightAfterScale = bitmap.getHeight();
+                moodBoardComponentBitmap.widthAfterScale = (bitmap.getWidth() / 4);
+                moodBoardComponentBitmap.heightAfterScale = (bitmap.getHeight() / 4);
                 drawingView.addBitmap(moodBoardComponentBitmap);
             }
         }

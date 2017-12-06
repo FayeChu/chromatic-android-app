@@ -58,6 +58,7 @@ public class SelectPhotoActivity extends AppCompatActivity {
     private ArrayList<String> mColorFive;
 
     private ArrayList<String> checkedList;
+    private List<Palette> mPalettes;
     private DatabaseReference mDatabase;
     private Boolean isChecked = false;
     private int width;
@@ -99,15 +100,22 @@ public class SelectPhotoActivity extends AppCompatActivity {
         mColorThree = new ArrayList<>();
         mColorFour = new ArrayList<>();
         mColorFive = new ArrayList<>();
-
         checkedList = new ArrayList<>();
+        mPalettes = new ArrayList<>();
+
         mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-//                mUrlList.clear();
-//                checkedList.clear();
+                mUrlList.clear();
+                mColorOne.clear();
+                mColorTwo.clear();
+                mColorThree.clear();
+                mColorFour.clear();
+                mColorFive.clear();
+                checkedList.clear();
+                mPalettes.clear();
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 //                    MoodBoard mb = (HashMap) postSnapshot.getValue();
@@ -116,6 +124,7 @@ public class SelectPhotoActivity extends AppCompatActivity {
                     Palette palette = postSnapshot.getValue(Palette.class);
 //                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
                     mUrlList.add(palette.imageUri);
+                    mPalettes.add(palette);
 //                    mColorOne.add(String.format("#%06X", (0xFFFFFF & palette.colorOne)));
 
                     checkPermission();

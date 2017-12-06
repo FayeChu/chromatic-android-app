@@ -80,9 +80,8 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
                     }
                 });
 
-        if (savedInstanceState == null) {
-            final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
-            mUrlList = new ArrayList<>();
+//        if (savedInstanceState == null) {
+
 //
 //            mUrlList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510081122985&di=8bfc65adda0e868cb7700eadf8dcac71&imgtype=0&src=http%3A%2F%2Fpic.zhutou.com%2Fhtml%2FUploadPic%2F2010-6%2F2010664458474.jpg");
 //            mUrlList.add("http://img1.imgtn.bdimg.com/it/u=963551012,3660149984&fm=214&gp=0.jpg");
@@ -95,61 +94,31 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 //                mUrlList.add(uri);
 //            }
 
-            mPalettes = new ArrayList<>();
-            mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
-
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    mPalettes.clear();
-//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-//                    MoodBoard mb = (HashMap) postSnapshot.getValue();
-//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
-
-
-                        Palette palette = postSnapshot.getValue(Palette.class);
-//                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
-                        mPalettes.add(palette);
-                        mUrlList.add(palette.imageUri);
-                    }
-
-//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-
-        } else {
-            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
-        }
-
         final String PALETTE_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 
         mUrlList = new ArrayList<>();
         mPalettes = new ArrayList<>();
+
         mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-//                mUrlList2.clear();
-//                mPalettes.clear();
+                mUrlList.clear();
+                mPalettes.clear();
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 //                    MoodBoard mb = (HashMap) postSnapshot.getValue();
 //                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
 
+
                     Palette palette = postSnapshot.getValue(Palette.class);
 //                    Toast.makeText(SelectPhotoActivity.this, palette.name, Toast.LENGTH_SHORT).show();
-                    mUrlList.add(palette.imageUri);
                     mPalettes.add(palette);
-
+                    mUrlList.add(palette.imageUri);
                 }
 
-//                Toast.makeText(PaletteGalleryScreenActivity.this, "a" + String.valueOf(mUrlList2.size()), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -290,13 +259,13 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermission () {
+    private void checkPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No Permission", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS, Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Has Permission", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -339,7 +308,7 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(v, (int)v.getTag());
+                mOnItemClickListener.onItemClick(v, (int) v.getTag());
             }
         }
 
