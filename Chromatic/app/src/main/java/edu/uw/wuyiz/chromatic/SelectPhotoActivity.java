@@ -1,6 +1,7 @@
 package edu.uw.wuyiz.chromatic;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.lwj.widget.picturebrowser.PictureBrowser;
 
 import java.util.ArrayList;
 
@@ -28,8 +31,13 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
     private Uri imageUri;
     private String uri;
+    private MyRecyclerAdapter2 adapter;
 
     private ArrayList<String> mUrlList;
+    private ArrayList<String> checkedList;
+    private ArrayList<Bitmap> BitmapList;
+
+    private Boolean isChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,30 +46,6 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-//        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-//                findViewById(R.id.bottom_navigation);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(
-//                new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        switch (item.getItemId()) {
-//                            case R.id.action_moodboards:
-////                                Intent selectPhotoIntent = new Intent(getApplicationContext(), SelectPhotoActivity.class);
-////                                startActivity(selectPhotoIntent);
-//                            case R.id.action_gallery:
-//                                Intent galleryIntent = new Intent(getApplicationContext(), PaletteGalleryScreenActivity.class);
-//                                startActivity(galleryIntent);
-//                                return true;
-//                            case R.id.action_creations:
-//                                Intent creationsIntent = new Intent(getApplicationContext(), MoodBoardGalleryScreenActivity.class);
-//                                startActivity(creationsIntent);
-//
-//                        }
-//                        return true;
-//                    }
-//                });
 
         if (savedInstanceState == null) {
             mUrlList = new ArrayList<>();
@@ -82,8 +66,7 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-
-        final MyRecyclerAdapter2 adapter = new MyRecyclerAdapter2(mUrlList);
+        adapter = new MyRecyclerAdapter2(mUrlList);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
@@ -199,27 +182,42 @@ public class SelectPhotoActivity extends AppCompatActivity {
         public MyRecyclerAdapter2(ArrayList<String> urlList) {
             mUrlList = urlList;
         }
-        public ArrayList<String> getData()
-        {
+        public ArrayList<String> getData() {
 
             return mUrlList;
         }
 
         @Override
         public SelectPhotoActivity.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.gallery_list, parent, false);
-            //将创建的View注册点击事件
+            View view = getLayoutInflater().inflate(R.layout.select_list, parent, false);
             view.setOnClickListener(this);
             return new SelectPhotoActivity.MyViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(SelectPhotoActivity.MyViewHolder holder, final int position) {
+        public void onBindViewHolder(final SelectPhotoActivity.MyViewHolder holder, final int position) {
             Glide.with(SelectPhotoActivity.this)
                     .load(mUrlList.get(position))
                     .into(holder.mTvPicture);
             //将position保存在itemView的Tag中，以便点击时进行获取
             holder.itemView.setTag(position);
+
+            holder.mTvPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isChecked) {
+                        //adapter.
+                        holder.mIcon.setImageResource(R.mipmap.imageselector_select_checked);
+                        isChecked = true;
+                    } else {
+                        holder.mIcon.setImageResource(R.mipmap.imageselector_select_uncheck);
+                        isChecked = false;
+                    }
+
+                }
+            });
+
+
         }
 
         @Override
@@ -249,10 +247,12 @@ public class SelectPhotoActivity extends AppCompatActivity {
 
 
         public final ImageView mTvPicture;
+        public final ImageView mIcon;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mTvPicture = (ImageView) itemView.findViewById(R.id.iv_picture_item);
+            mIcon = (ImageView) itemView.findViewById(R.id.photo_check);
         }
     }
 
