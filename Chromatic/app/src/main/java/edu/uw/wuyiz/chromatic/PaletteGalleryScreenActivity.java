@@ -38,6 +38,9 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_palette_gallery_screen);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         Intent intent = getIntent();
         uri = intent.getStringExtra("uri");
 
@@ -127,6 +130,16 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

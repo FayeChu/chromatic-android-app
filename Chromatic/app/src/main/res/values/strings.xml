@@ -2,16 +2,16 @@
 
     <string name="app_name">Chromatic</string>
 
-    <string name="title_activity_create_mood_board">Create New Mood Board Activity</string>
-    <string name="title_activity_show_created_mood_board">Show Created Mood Board Activity</string>
-    <string name="title_activity_set_mood_board_info">Set Mood Board Info Activity</string>
-    <string name="title_activity_palette_gallery_screen">Palette Gallery Screen Activity</string>
-    <string name="title_activity_mood_board_gallery_screen">Mood Board Gallery Screen Activity</string>
+    <string name="title_activity_create_mood_board">Create New Mood Board</string>
+    <string name="title_activity_show_created_mood_board">Show Created Mood Board</string>
+    <string name="title_activity_set_mood_board_info">Set Mood Board Info</string>
+    <string name="title_activity_palette_gallery_screen">Palette Gallery Screen</string>
+    <string name="title_activity_mood_board_gallery_screen">Mood Board Gallery Screen</string>
     <string name="title_activity_main">Main Activity</string>
-    <string name="title_activity_select_photo">Select Photo Activity</string>
-    <string name="title_activity_mood_preview">Mood Preview Activity</string>
-    <string name="title_activity_create_palette">Create Palette Activity</string>
-    <string name="title_activity_set_palette_info">Set Palette Info Activity</string>
+    <string name="title_activity_select_photo">Select Photo</string>
+    <string name="title_activity_mood_preview">Mood Preview</string>
+    <string name="title_activity_create_palette">Create Palette</string>
+    <string name="title_activity_set_palette_info">Set Palette Info</string>
     <string name="title_next">next</string>
 
     <string name="action_import">IMPORT</string>

@@ -39,8 +39,13 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_board_gallery_screen);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         moodboardList = new ArrayList<>();
         mBitmaps = new ArrayList<>();
+
+        final String MOOD_BOARD_COLLECTION_STORAGE_KEY = getString(R.string.mood_board_collection_storage_key);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -83,7 +88,7 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 //            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
 //        }
 
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://chromatic-android-app.firebaseio.com/Mood Board Collection");
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://chromatic-android-app.firebaseio.com/" + MOOD_BOARD_COLLECTION_STORAGE_KEY);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -91,16 +96,12 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 //                    MoodBoard moodBoard = noteDataSnapshot.getKey();
                     MoodBoard moodBoard = noteDataSnapshot.getValue(MoodBoard.class);
                     moodboardList.add(moodBoard);
-                }
-
-                for (MoodBoard moodBoard : moodboardList) {
                     mBitmaps.add(moodBoard.getMoodBoardBitmap());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -150,6 +151,16 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
 //
 //    @Override
 //    protected void onSaveInstanceState(Bundle outState) {
@@ -166,6 +177,7 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 //        //mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
 //    }
 //
+
     class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;

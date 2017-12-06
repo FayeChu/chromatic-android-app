@@ -36,6 +36,9 @@ public class SelectPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_photo);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 //        BottomNavigationView bottomNavigationView = (BottomNavigationView)
 //                findViewById(R.id.bottom_navigation);
 //
@@ -96,6 +99,9 @@ public class SelectPhotoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             case R.id.action_select_done:
                 //send image to create mood boards activity
                 Intent imageIntent = new Intent(this, CreateMoodBoardActivity.class);

@@ -3,6 +3,7 @@ package edu.uw.wuyiz.chromatic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,10 +27,12 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_mood_board_info);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final String MOOD_BOARD_COLLECTION_STORAGE_KEY = getString(R.string.mood_board_collection_storage_key);
@@ -120,5 +123,15 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

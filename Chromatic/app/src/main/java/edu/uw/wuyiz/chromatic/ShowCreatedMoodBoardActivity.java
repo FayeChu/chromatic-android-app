@@ -3,6 +3,7 @@ package edu.uw.wuyiz.chromatic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,8 +23,8 @@ public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         createdMoodBoardImage = findViewById(R.id.created_mood_board);
         createdMoodBoardImage.setImageBitmap(CreateMoodBoardActivity.createdMoodBoardBitmap);
@@ -39,5 +40,15 @@ public class ShowCreatedMoodBoardActivity extends AppCompatActivity {
                         SetMoodBoardInfoActivity.class));
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

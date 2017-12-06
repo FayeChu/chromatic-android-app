@@ -47,6 +47,9 @@ public class MoodPreviewActivity extends AppCompatActivity implements Palette.Pa
 
         setContentView(R.layout.activity_mood_preview);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         Intent intent = getIntent();
         String uri = intent.getStringExtra("uri");
         imageUri = Uri.parse(uri);
@@ -80,6 +83,9 @@ public class MoodPreviewActivity extends AppCompatActivity implements Palette.Pa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             case R.id.action_palette:
                 //go to palette activity
                 Intent intent = new Intent(this, CreatePaletteActivity.class);
