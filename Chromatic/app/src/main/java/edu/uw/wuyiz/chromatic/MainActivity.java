@@ -92,26 +92,26 @@ public class MainActivity extends AppCompatActivity {
                 //intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 startActivityForResult(intent,REQUEST_TAKE_PHOTO);
 //                File photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
-                    // Create the File where the photo should go
-                    try {
-                        File photoFile = createImageFile();
-                        if (photoFile != null) {
-                            imageUri = FileProvider.getUriForFile(MainActivity.this,
-                                    "edu.uw.wuyiz.chromatic.android.fileprovider",
-                                    photoFile);
-                            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                            takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
-                        }
-                    } catch (IOException ex) {
-                        // Error occurred while creating the File
-                    }
-                    // Continue only if the File was successfully created
-
-                }
+//                if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+//                    // Create the File where the photo should go
+//                    try {
+//                        File photoFile = createImageFile();
+//                        if (photoFile != null) {
+//                            imageUri = FileProvider.getUriForFile(MainActivity.this,
+//                                    "edu.uw.wuyiz.chromatic.android.fileprovider",
+//                                    photoFile);
+//                            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+//                            takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                            startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
+//                        }
+//                    } catch (IOException ex) {
+//                        // Error occurred while creating the File
+//                    }
+//                    // Continue only if the File was successfully created
+//
+//                }
 //                photo = new File(Environment.getExternalStorageDirectory(), "Pic.jpg");
 //                intent.putExtra(MediaStore.EXTRA_OUTPUT,
 //                        Uri.fromFile(photo));
@@ -124,27 +124,27 @@ public class MainActivity extends AppCompatActivity {
 //                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 //                takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //                startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
-                Uri uri = Uri.fromFile(getOutputMediaFile());
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//                Uri uri = Uri.fromFile(getOutputMediaFile());
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             }
         });
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
+//    private File createImageFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+//        mCurrentPhotoPath = image.getAbsolutePath();
+//        return image;
+//    }
 
     private File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
@@ -190,22 +190,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private  File createImageFile() throws IOException {
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        String imageFileName = "JPEG_" + timeStamp;//创建以时间命名的文件名称
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);//创建保存的路径
-//
-//        File image = new File(storageDir.getPath(), imageFileName + ".jpg");
-//        if (!image.exists()) {
-//            try {
-//                //在指定的文件夹中创建文件
-//                image.createNewFile();
-//            } catch (Exception e) {
-//            }
-//        }
-//
-//        return image;
-//    }
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        File image = new File(storageDir.getPath(), imageFileName + ".jpg");
+        if (!image.exists()) {
+            try {
+                image.createNewFile();
+            } catch (Exception e) {
+            }
+        }
+
+        return image;
+    }
 
     private void galleryAddPic()
     {
