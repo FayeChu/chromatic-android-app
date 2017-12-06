@@ -15,3 +15,4 @@ Chromatic is a camera application allowing designers, artists, photographers, an
 * As a user, I want to view a color palette and experiment by applying to different images
 * As a user, I want to create, view, save, and export mood boards
 * As a user, I want to have a personal profile page that contains my portfolio of palette schemes, colored images, and a collection of my favorites works
+### Instructions
