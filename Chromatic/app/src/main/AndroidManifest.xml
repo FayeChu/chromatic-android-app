@@ -4,6 +4,8 @@
     package="edu.uw.wuyiz.chromatic">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -55,7 +57,7 @@
 
         <activity
             android:name=".SelectPhotoActivity"
-            android:label="@string/title_activity_select_photo" />
+            android:label="@string/title_activity_select_palette" />
 
         <activity
             android:name=".CreatePaletteActivity"

@@ -1,6 +1,7 @@
 package edu.uw.wuyiz.chromatic;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -17,11 +18,17 @@ import android.widget.ImageView;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.lwj.widget.picturebrowser.PictureBrowser;
 import com.lwj.widget.picturebrowser.PictureFragment;
 import com.lwj.widget.picturebrowser.PictureLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
@@ -32,6 +39,10 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
     private String uri;
 
     private ArrayList<String> mUrlList;
+
+    private List<Palette> mPalettes;
+    private List<Bitmap> mBitmaps;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +96,35 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
             mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
         }
 
+        final String MOOD_BOARD_COLLECTION_STORAGE_KEY = getString(R.string.palette_collection_storage_key);
 
+        mPalettes = new ArrayList<>();
+        mBitmaps = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(MOOD_BOARD_COLLECTION_STORAGE_KEY);
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                mPalettes.clear();
+                mBitmaps.clear();
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                    MoodBoard mb = (HashMap) postSnapshot.getValue();
+//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + moodBoard.moodBoardName, Toast.LENGTH_SHORT).show();
+
+//                    Palette palette = postSnapshot.getValue(Palette.class);
+//                    mPalettes.add(palette);
+//                    mBitmaps.add(stringToBitmap(moodBoard.getMoodBoardBitmapStr()));
+                }
+
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 

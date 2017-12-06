@@ -2,6 +2,7 @@ package edu.uw.wuyiz.chromatic;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +18,24 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
     private static final String KEY_IMAGE_URI = "image_uri";
 
-    private ArrayList<MoodBoard> moodboardList;
-    private ArrayList<Bitmap> mBitmaps;
+    private List<MoodBoard> mMoodBoards;
+    private List<Bitmap> mBitmaps;
     private DatabaseReference mDatabase;
 
     private String uri;
@@ -41,11 +47,6 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        moodboardList = new ArrayList<>();
-        mBitmaps = new ArrayList<>();
-
-        final String MOOD_BOARD_COLLECTION_STORAGE_KEY = getString(R.string.mood_board_collection_storage_key);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -71,6 +72,71 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
                     }
                 });
 
+        final String MOOD_BOARD_COLLECTION_STORAGE_KEY = getString(R.string.mood_board_collection_storage_key);
+
+        mMoodBoards = new ArrayList<>();
+        mBitmaps = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(MOOD_BOARD_COLLECTION_STORAGE_KEY);
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                mMoodBoards.clear();
+                mBitmaps.clear();
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+//                    MoodBoard mb = (HashMap) postSnapshot.getValue();
+//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + mb.moodBoardName, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + moodBoard.moodBoardName, Toast.LENGTH_SHORT).show();
+
+                    MoodBoard moodBoard = postSnapshot.getValue(MoodBoard.class);
+                    mMoodBoards.add(moodBoard);
+                    mBitmaps.add(stringToBitmap(moodBoard.getMoodBoardBitmapStr()));
+                }
+
+//                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+//        mDatabase.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+//
+//                MoodBoard moodBoard = dataSnapshot.getValue(MoodBoard.class);
+//                moodboardList.add(moodBoard);
+////                mBitmaps.add(moodBoard.getMoodBoardBitmap());
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                MoodBoard moodBoard = dataSnapshot.getValue(MoodBoard.class);
+//                moodboardList.remove(moodBoard);
+////                mBitmaps.remove(moodBoard.getMoodBoardBitmap());
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+//                MoodBoard moodBoard = dataSnapshot.getValue(MoodBoard.class);
+//                moodboardList.add(moodBoard);
+////                mBitmaps.add(moodBoard.getMoodBoardBitmap());
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+
+
+
 //        if (savedInstanceState == null) {
 //            mUrlList = new ArrayList<>();
 //
@@ -87,28 +153,6 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 //        } else {
 //            mUrlList = savedInstanceState.getStringArrayList(KEY_IMAGE_URI);
 //        }
-
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://chromatic-android-app.firebaseio.com/" + MOOD_BOARD_COLLECTION_STORAGE_KEY);
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-//                    MoodBoard moodBoard = noteDataSnapshot.getKey();
-                    MoodBoard moodBoard = noteDataSnapshot.getValue(MoodBoard.class);
-                    moodboardList.add(moodBoard);
-                    mBitmaps.add(moodBoard.getMoodBoardBitmap());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        Toast.makeText(this, String.valueOf(moodboardList.size()) + "a", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, String.valueOf(mBitmaps.size()) + "a", Toast.LENGTH_SHORT).show();
-
-
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -161,7 +205,23 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(menuItem);
     }
-//
+
+    /**
+     * @param encodedString
+     * @return bitmap (from given string)
+     */
+    private Bitmap stringToBitmap(String encodedString) {
+        try {
+            byte[] encodedByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0, encodedByte.length);
+
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 //    @Override
 //    protected void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
@@ -196,15 +256,16 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 //        }
         }
     }
+
     class MyRecyclerAdapter2 extends RecyclerView.Adapter<MoodBoardGalleryScreenActivity.MyViewHolder> implements View.OnClickListener {
 
-        private ArrayList<Bitmap> mBitmaps;
+        private List<Bitmap> mBitmaps;
 
-        public MyRecyclerAdapter2(ArrayList<Bitmap> bitmaps) {
+        public MyRecyclerAdapter2(List<Bitmap> bitmaps) {
             mBitmaps = bitmaps;
         }
-        public ArrayList<Bitmap> getData()
-        {
+
+        public List<Bitmap> getData() {
 
             return mBitmaps;
         }
@@ -228,13 +289,14 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         public int getItemCount() {
             return mBitmaps.size();
         }
+
         private PaletteGalleryScreenActivity.OnItemClickListener mOnItemClickListener = null;
 
 
         @Override
         public void onClick(View v) {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(v,(int)v.getTag());
+                mOnItemClickListener.onItemClick(v, (int) v.getTag());
             }
         }
 
@@ -242,11 +304,13 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
             this.mOnItemClickListener = listener;
         }
     }
-//
+
+    //
 //    //define interface
-    public  interface OnItemClickListener {
-        void onItemClick(View view , int position);
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
 

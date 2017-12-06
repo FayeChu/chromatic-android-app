@@ -1,8 +1,10 @@
 package edu.uw.wuyiz.chromatic;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,15 +75,12 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                 final String moodBoardDescription = moodBoardDescriptionUserInput.getText().toString();
                 final String moodBoardId = moodBoardName + moodBoardAuthor;
 
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (moodBoardName == null || moodBoardName.trim().length() <= 0) {
+                if (moodBoardName == null || moodBoardName.trim().length() <= 0) {
 
-                            Toast.makeText(
-                                    SetMoodBoardInfoActivity.this,
-                                    "Please enter a name for the mood board",
-                                    Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            SetMoodBoardInfoActivity.this,
+                            "Please enter a name for the mood board",
+                            Toast.LENGTH_SHORT).show();
 
 //                        } else if (dataSnapshot.child(moodBoardId).exists()) {
 //                            Toast.makeText(
@@ -90,37 +90,30 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
 //                                            + " already exists, please enter a new name or author",
 //                                    Toast.LENGTH_SHORT).show();
 
-                        } else {
+                } else {
 
-                            MoodBoard newMoodBoardObject = new MoodBoard(moodBoardId,
-                                    moodBoardName,
-                                    moodBoardAuthor,
-                                    moodBoardDate,
-                                    moodBoardNotes,
-                                    moodBoardDescription,
-                                    CreateMoodBoardActivity.createdMoodBoardBitmap);
+                    MoodBoard moodBoard = new MoodBoard(moodBoardId,
+                            moodBoardName,
+                            moodBoardAuthor,
+                            moodBoardDate,
+                            moodBoardNotes,
+                            moodBoardDescription,
+                            bitmapToString(CreateMoodBoardActivity.createdMoodBoardBitmap));
 
-                            databaseReference.child(databaseReference
-                                    .push().getKey()).setValue(newMoodBoardObject);
+                    databaseReference.child(databaseReference.push().getKey()).setValue(moodBoard);
 
-                            Toast.makeText(
-                                    SetMoodBoardInfoActivity.this,
-                                    "Mood Board "
-                                            + newMoodBoardObject.moodBoardId
-                                            + " saved successfully",
-                                    Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            SetMoodBoardInfoActivity.this,
+                            "Mood Board "
+                                    + moodBoard.moodBoardName
+                                    + " saved successfully",
+                            Toast.LENGTH_SHORT).show();
 
-                            Intent galleryIntent = new Intent(
-                                    getApplicationContext(),
-                                    MoodBoardGalleryScreenActivity.class);
-                            startActivity(galleryIntent);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                    Intent galleryIntent = new Intent(
+                            getApplicationContext(),
+                            MoodBoardGalleryScreenActivity.class);
+                    startActivity(galleryIntent);
+                }
             }
         });
     }
@@ -133,5 +126,13 @@ public class SetMoodBoardInfoActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public String bitmapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b = baos.toByteArray();
+        String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
+        return bitmapString;
     }
 }
