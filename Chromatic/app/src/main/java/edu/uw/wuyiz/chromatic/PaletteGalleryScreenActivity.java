@@ -1,6 +1,5 @@
 package edu.uw.wuyiz.chromatic;
 
-import android.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,25 +17,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import android.Manifest;
 
-import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.lwj.widget.picturebrowser.PictureBrowser;
-import com.lwj.widget.picturebrowser.PictureFragment;
-import com.lwj.widget.picturebrowser.PictureLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -45,8 +38,6 @@ import java.util.List;
 public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
     private static final String KEY_IMAGE_URI = "image_uri";
-
-    private static final int REQUEST_CODE_PICK_IMAGE = 0;
 
     private PaletteGalleryRecyclerAdapter adapter;
     private ArrayList<String> mUrlList;
@@ -119,7 +110,6 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
         mColorThree = new ArrayList<>();
         mColorFour = new ArrayList<>();
         mColorFive = new ArrayList<>();
-
         mPalettes = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child(PALETTE_COLLECTION_STORAGE_KEY);
@@ -237,7 +227,7 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         checkPermission();
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
@@ -335,11 +325,14 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
     private void checkPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "No Permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS, Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         } else {
-            Toast.makeText(this, "Has Permission", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -368,7 +361,7 @@ public class PaletteGalleryScreenActivity extends AppCompatActivity {
 
         @Override
         public PaletteGalleryScreenActivity.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.gallery_list, parent, false);
+            View view = getLayoutInflater().inflate(R.layout.palette_gallary_list, parent, false);
             view.setOnClickListener(this);
             return new PaletteGalleryScreenActivity.MyViewHolder(view);
         }

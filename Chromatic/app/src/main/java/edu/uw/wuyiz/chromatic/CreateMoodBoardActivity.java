@@ -70,6 +70,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
                 // when clicking Create, all the MoodBoardComponentBitmap objects
                 // in the drawingView are turned into a Bitmap and returned
                 createdMoodBoardBitmap = getBitmap(drawingView);
+                createdMoodBoardBitmap.setHasAlpha(true);
                 // show created mood board
                 startActivity(new Intent(CreateMoodBoardActivity.this,
                         ShowCreatedMoodBoardActivity.class));
@@ -270,12 +271,12 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_DOCUMENTS) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No Permission" , Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MANAGE_DOCUMENTS,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         } else {
-            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Has Permission" , Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -295,10 +296,13 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
             Bitmap bitmap = imageUriStringToBitmap(checkedList.get(i));
 
             if (bitmap != null) {
-                MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(bitmap);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                        bitmap, bitmap.getWidth()/4, bitmap.getHeight()/4, false);
+
+                MoodBoardComponentBitmap moodBoardComponentBitmap = new MoodBoardComponentBitmap(resizedBitmap);
                 moodBoardComponentBitmap.setId(i);
-                moodBoardComponentBitmap.widthAfterScale = (bitmap.getWidth() / 4);
-                moodBoardComponentBitmap.heightAfterScale = (bitmap.getHeight() / 4);
+                moodBoardComponentBitmap.widthAfterScale = resizedBitmap.getWidth();
+                moodBoardComponentBitmap.heightAfterScale = resizedBitmap.getHeight();
                 drawingView.addBitmap(moodBoardComponentBitmap);
             }
         }

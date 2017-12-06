@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,30 +16,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
     private static final String KEY_IMAGE_URI = "image_uri";
 
-    private List<MoodBoard> mMoodBoards;
-    private List<Bitmap> mBitmaps;
-    private DatabaseReference mDatabase;
+    private MoodBoardGalleryRecyclerAdapter adapter;
 
-    private String uri;
+    private ArrayList<String> mUrlList;
+    private List<MoodBoard> mMoodBoards;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +72,16 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
         final String MOOD_BOARD_COLLECTION_STORAGE_KEY = getString(R.string.mood_board_collection_storage_key);
 
+        mUrlList = new ArrayList<>();
         mMoodBoards = new ArrayList<>();
-        mBitmaps = new ArrayList<>();
+
         mDatabase = FirebaseDatabase.getInstance().getReference().child(MOOD_BOARD_COLLECTION_STORAGE_KEY);
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                mUrlList.clear();
                 mMoodBoards.clear();
-                mBitmaps.clear();
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(snapshot.getChildrenCount()), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 //                    MoodBoard mb = (HashMap) postSnapshot.getValue();
@@ -92,7 +90,7 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 
                     MoodBoard moodBoard = postSnapshot.getValue(MoodBoard.class);
                     mMoodBoards.add(moodBoard);
-                    mBitmaps.add(stringToBitmap(moodBoard.getMoodBoardBitmapStr()));
+                    mUrlList.add(moodBoard.moodBoardBitmapStr);
                 }
 
 //                Toast.makeText(MoodBoardGalleryScreenActivity.this, "a" + String.valueOf(mMoodBoards.size()), Toast.LENGTH_SHORT).show();
@@ -158,7 +156,7 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
 
-        final MoodBoardGalleryScreenActivity.MyRecyclerAdapter2 adapter = new MoodBoardGalleryScreenActivity.MyRecyclerAdapter2(mBitmaps);
+        adapter = new MoodBoardGalleryScreenActivity.MoodBoardGalleryRecyclerAdapter(mUrlList);
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(manager);
 
@@ -239,11 +237,11 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
 //    }
 //
 
-    class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+    class MoodBoardSpacesItemDecoration extends RecyclerView.ItemDecoration {
 
         private int space;
 
-        public SpacesItemDecoration(int space) {
+        public MoodBoardSpacesItemDecoration(int space) {
             this.space = space;
         }
 
@@ -258,22 +256,21 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         }
     }
 
-    class MyRecyclerAdapter2 extends RecyclerView.Adapter<MoodBoardGalleryScreenActivity.MyViewHolder> implements View.OnClickListener {
+    class MoodBoardGalleryRecyclerAdapter extends RecyclerView.Adapter<MoodBoardGalleryScreenActivity.MyViewHolder> implements View.OnClickListener {
 
-        private List<Bitmap> mBitmaps;
+        private List<String> mUrlList;
 
-        public MyRecyclerAdapter2(List<Bitmap> bitmaps) {
-            mBitmaps = bitmaps;
+        public MoodBoardGalleryRecyclerAdapter(List<String> mUrlList) {
+            this.mUrlList = mUrlList;
         }
 
-        public List<Bitmap> getData() {
-
-            return mBitmaps;
+        public List<String> getData() {
+            return mUrlList;
         }
 
         @Override
         public MoodBoardGalleryScreenActivity.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.creations_list, parent, false);
+            View view = getLayoutInflater().inflate(R.layout.mood_board_gallary_list, parent, false);
             view.setOnClickListener(this);
             return new MoodBoardGalleryScreenActivity.MyViewHolder(view);
         }
@@ -281,14 +278,14 @@ public class MoodBoardGalleryScreenActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(MoodBoardGalleryScreenActivity.MyViewHolder holder, final int position) {
             Glide.with(MoodBoardGalleryScreenActivity.this)
-                    .load(mBitmaps.get(position))
+                    .load(Uri.parse(mUrlList.get(position)))
                     .into(holder.mTvPicture);
             holder.itemView.setTag(position);
         }
 
         @Override
         public int getItemCount() {
-            return mBitmaps.size();
+            return mUrlList.size();
         }
 
         private PaletteGalleryScreenActivity.OnItemClickListener mOnItemClickListener = null;
