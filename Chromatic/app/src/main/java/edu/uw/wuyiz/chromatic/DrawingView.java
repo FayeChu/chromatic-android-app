@@ -206,65 +206,71 @@ public class DrawingView extends View {
     }
 
     public void setOffset(DIRECTION direction) {
-        if (direction == DIRECTION.UP) {
-            curMoodBoardComponentBitmap.matrix.postTranslate(0, -2);
-        } else if (direction == DIRECTION.DOWN) {
-            curMoodBoardComponentBitmap.matrix.postTranslate(0, 2);
-        } else if (direction == DIRECTION.LEFT) {
-            curMoodBoardComponentBitmap.matrix.postTranslate(-2, 0);
-        } else if (direction == DIRECTION.RIGHT) {
-            curMoodBoardComponentBitmap.matrix.postTranslate(2, 0);
-        }
+        if (curMoodBoardComponentBitmap != null) {
+            if (direction == DIRECTION.UP) {
+                curMoodBoardComponentBitmap.matrix.postTranslate(0, -2);
+            } else if (direction == DIRECTION.DOWN) {
+                curMoodBoardComponentBitmap.matrix.postTranslate(0, 2);
+            } else if (direction == DIRECTION.LEFT) {
+                curMoodBoardComponentBitmap.matrix.postTranslate(-2, 0);
+            } else if (direction == DIRECTION.RIGHT) {
+                curMoodBoardComponentBitmap.matrix.postTranslate(2, 0);
+            }
 
-        invalidate();
+            invalidate();
+        }
     }
 
     public void scaleSelected(float scaleParam) {
-        curMoodBoardComponentBitmap.matrix.preScale(scaleParam, scaleParam,
-                curMoodBoardComponentBitmap.midPoint.x, curMoodBoardComponentBitmap.midPoint.y);
+        if (curMoodBoardComponentBitmap != null) {
+            curMoodBoardComponentBitmap.matrix.preScale(scaleParam, scaleParam,
+                    curMoodBoardComponentBitmap.midPoint.x, curMoodBoardComponentBitmap.midPoint.y);
 
-        curMoodBoardComponentBitmap.widthAfterScale = ((int) (curMoodBoardComponentBitmap.widthAfterScale * scaleParam));
-        curMoodBoardComponentBitmap.heightAfterScale = ((int) (curMoodBoardComponentBitmap.heightAfterScale * scaleParam));
+            curMoodBoardComponentBitmap.widthAfterScale = ((int) (curMoodBoardComponentBitmap.widthAfterScale * scaleParam));
+            curMoodBoardComponentBitmap.heightAfterScale = ((int) (curMoodBoardComponentBitmap.heightAfterScale * scaleParam));
 
-        float[] values = new float[9];
-        curMoodBoardComponentBitmap.matrix.getValues(values);
-        float globalX = values[Matrix.MTRANS_X];
-        float globalY = values[Matrix.MTRANS_Y];
-        float width= curMoodBoardComponentBitmap.widthAfterScale;
-        float height = curMoodBoardComponentBitmap.heightAfterScale;
+            float[] values = new float[9];
+            curMoodBoardComponentBitmap.matrix.getValues(values);
+            float globalX = values[Matrix.MTRANS_X];
+            float globalY = values[Matrix.MTRANS_Y];
+            float width= curMoodBoardComponentBitmap.widthAfterScale;
+            float height = curMoodBoardComponentBitmap.heightAfterScale;
 
-        Rect rect = new Rect((int) globalX,
-                (int) globalY,
-                (int) (globalX + width),
-                (int) (globalY + height));
+            Rect rect = new Rect((int) globalX,
+                    (int) globalY,
+                    (int) (globalX + width),
+                    (int) (globalY + height));
 
-        curMoodBoardComponentBitmap.x = rect.left;
-        curMoodBoardComponentBitmap.y = rect.top;
-        curMoodBoardComponentBitmap.scaleParam = scaleParam;
+            curMoodBoardComponentBitmap.x = rect.left;
+            curMoodBoardComponentBitmap.y = rect.top;
+            curMoodBoardComponentBitmap.scaleParam = scaleParam;
 
-        invalidate();
+            invalidate();
+        }
     }
 
     public void rotateSelected(int rotationDegree) {
-        curMoodBoardComponentBitmap.matrix.preRotate(rotationDegree,
-                curMoodBoardComponentBitmap.midPoint.x, curMoodBoardComponentBitmap.midPoint.y);
+        if (curMoodBoardComponentBitmap != null) {
+            curMoodBoardComponentBitmap.matrix.preRotate(rotationDegree,
+                    curMoodBoardComponentBitmap.midPoint.x, curMoodBoardComponentBitmap.midPoint.y);
 
-        float[] values = new float[9];
-        curMoodBoardComponentBitmap.matrix.getValues(values);
-        float globalX = values[Matrix.MTRANS_X];
-        float globalY = values[Matrix.MTRANS_Y];
-        float width= curMoodBoardComponentBitmap.widthAfterScale;
-        float height = curMoodBoardComponentBitmap.heightAfterScale;
+            float[] values = new float[9];
+            curMoodBoardComponentBitmap.matrix.getValues(values);
+            float globalX = values[Matrix.MTRANS_X];
+            float globalY = values[Matrix.MTRANS_Y];
+            float width= curMoodBoardComponentBitmap.widthAfterScale;
+            float height = curMoodBoardComponentBitmap.heightAfterScale;
 
-        Rect rect = new Rect((int) globalX,
-                (int) globalY,
-                (int) (globalX + width),
-                (int) (globalY + height));
+            Rect rect = new Rect((int) globalX,
+                    (int) globalY,
+                    (int) (globalX + width),
+                    (int) (globalY + height));
 
-        curMoodBoardComponentBitmap.x = rect.left;
-        curMoodBoardComponentBitmap.y = rect.top;
+            curMoodBoardComponentBitmap.x = rect.left;
+            curMoodBoardComponentBitmap.y = rect.top;
 
-        invalidate();
+            invalidate();
+        }
     }
 
     public void addBitmap(MoodBoardComponentBitmap moodBoardComponentBitmap) {
