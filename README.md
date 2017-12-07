@@ -1,9 +1,9 @@
-## INFO 448 Android Development Final Project
-#### Team Name
+## INFO 448 Mobile Development：Android
+### Team Name
 Halloween Androiders (Team 3)
-##### Team Members
+### Team Members
 Xiaofei Chu, Karen Lee, Su Wang, Wuyi Zhang
-## Chromatic
+### App - Chromatic (apk can be found inside the chromatic-android-app/Chromatic/app/)
 ### Project Outline
 Chromatic is a camera application allowing designers, artists, photographers, anyone with a desire to seek colors found naturally and around the world to simply extract the inspiration in their photos and lay them out as palettes and mood boards. It can be used to create customized color palettes and mood boards, and its main purpose is to check if different color fit each other by placing them together.
 ### User Stories
