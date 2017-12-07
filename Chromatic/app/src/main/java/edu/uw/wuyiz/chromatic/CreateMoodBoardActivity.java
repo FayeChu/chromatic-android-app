@@ -64,6 +64,7 @@ public class CreateMoodBoardActivity extends AppCompatActivity {
 
         // initialize the drawingView and createdMoodBoardBitmap
         drawingView = findViewById(R.id.drawing_view);
+        drawingView.setBackgroundColor(Color.WHITE);
         createdMoodBoardBitmap = null;
 
         findViewById(R.id.create_mood_board_button).setOnClickListener(new View.OnClickListener() {
