@@ -33,6 +33,6 @@ Chromatic is an android camera application allowing designers, artists, photogra
 5. On palette gallery screen, you will see your created palette here, and you can click on New Mood Board on the bottom left to create your customized mood boards, then select multiple pictures and colors by ticking the small check boxes, click Done.
 6. On create new mood board screen, drag, move, or do other actions on the pictures you selected and make a mood board in a way you want.
 7. After clicking on the create button, you will see your mood board preview here, click on the save button to continue. 
-8. You need to set your mood board information by entering mood board name, author, date and note, then confirm.
+8. You need to set your mood board information by entering mood board name, author, date, and note, then confirm.
 9. You can view your creations on mood board gallery screen.
 10. Have fun!
