@@ -26,7 +26,7 @@ Chromatic is an android camera application allowing designers, artists, photogra
 * As a user, I want to view a mood board and its relevant information
 
 ### How to use the app
-1. Choose a picture by either taking a photo or import a photo from your mobile phone.
+1. Choose a picture by either taking a photo or importing a photo from your mobile phone.
 2. On mood preview screen, click on custom color scheme to create your palette.
 3. On create palette screen, click one of the the small blank boxes below the picture and select a color from the picture by clicking on the point you want or moving your finger, repeat this step to extract colors, click Next.
 4. On set palette info screen, give your palette a name, location, and date you created this palette, click save.
