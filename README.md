@@ -35,4 +35,4 @@ Chromatic is a camera application allowing designers, artists, photographers, an
 7. After clicking on Create you will see your mood board preview here, click on save to continue. 
 8. You need to set your mood board information by entering mood board name, author, date and note, then confirm.
 9. You can view your creations on mood board gallery screen.
-10. Have fun!.
+10. Have fun!
